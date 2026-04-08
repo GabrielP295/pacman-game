@@ -1,4 +1,4 @@
-import {movePacmnan} from "../models-movement/pacman-movement";
+import {movePacman} from "../models-movement/pacman-movement";
 
 
 // We can turn out movePacman function into a pure function
@@ -14,7 +14,7 @@ describe("movePacman", ()=> {
                     [1,0,1]
                     ];
         //Act
-        const result = movePacmnan(pacman,grid,1,0);
+        const result = movePacman(pacman,grid,1,0);
         
         //Assert
         expect(result).toEqual({row:2, col:1});
@@ -29,7 +29,7 @@ describe("movePacman", ()=> {
                     [1,0,1]
                     ];
         //Act
-        const result = movePacmnan(pacman,grid,0,1);
+        const result = movePacman(pacman,grid,0,1);
 
         //Assert
         expect(result).toEqual({row:1, col:1});
