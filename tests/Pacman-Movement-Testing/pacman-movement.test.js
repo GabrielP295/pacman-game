@@ -1,4 +1,4 @@
-import {movePacman} from "../models-movement/pacman-movement";
+import {movePacman} from "../../models-movement/pacman-movement";
 
 
 // We can turn out movePacman function into a pure function
