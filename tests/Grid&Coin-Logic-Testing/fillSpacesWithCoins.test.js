@@ -22,4 +22,22 @@ describe("fillSpacesWithCoins", ()=> {
         //Assert
         expect(grid).toEqual(expectedGrid);
     });
+
+    it("does not modify spaces that are not empty", ()=> {
+        //Arrange
+        const grid =[
+                    [1,1,1],
+                    [1,1,0],
+                    [1,0,1]
+                    ];
+        const expectedGrid =[
+                    [1,1,1],
+                    [1,1,4],
+                    [1,4,1]
+                    ];
+        //Act
+        fillSpacesWithCoins(grid);
+        //Assert
+        expect(grid).toEqual(expectedGrid);
+    });
 });
