@@ -5,6 +5,7 @@ import {movePacman} from "../models-movement/pacman-movement";
 // Parameters: pacman, grid, rowToAdd, colToAdd  
 // Returns: {row:number, col:number}
 describe("movePacman", ()=> {
+    //////////////////////TESTS FOR MOVING //////////////////////
     it("moves down when there is no wall", ()=> {
         //Arrange
         const pacman = {row:1, col:1};
@@ -19,6 +20,47 @@ describe("movePacman", ()=> {
         //Assert
         expect(result).toEqual({row:2, col:1});
     });
+    it("moves up when there is no wall", ()=> {
+        //Arrange
+        const pacman = {row:1, col:1};
+        const grid =[
+                    [1,0,1],
+                    [1,0,1],
+                    [1,0,1]
+                    ];  
+        //Act
+        const result = movePacman(pacman,grid,-1,0);
+        //Assert
+        expect(result).toEqual({row:0, col:1});
+    });
+     it("moves right when there is no wall", ()=> {
+        //Arrange
+        const pacman = {row:1, col:1};
+        const grid =[
+                    [1,1,1],
+                    [1,0,0],
+                    [1,0,1]
+                    ];
+        //Act
+        const result = movePacman(pacman,grid,0,1);
+        //Assert
+        expect(result).toEqual({row:1, col:2});
+    });
+     it("moves left when there is no wall", ()=> {
+        //Arrange
+        const pacman = {row:1, col:1};
+        const grid =[
+                    [1,1,1],
+                    [0,0,1],
+                    [1,0,1]
+                    ];
+        //Act
+        const result = movePacman(pacman,grid,0,-1);
+
+        //Assert
+        expect(result).toEqual({row:1, col:0});
+    });
+    /////////////////////////////////////////////////////////////////
 
     it("does not move into wall spaces",()=> {
         //Arrange
