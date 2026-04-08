@@ -1,28 +1,49 @@
-export function movePacmnan(rowToAdd = 0, colToAdd = 0) {
-  if (grid[pacMan.row + rowToAdd][pacMan.col + colToAdd] === 1) {
-    return;
-  }
+//starting no movement
+let currentDirection = { row: 0, col: 0 };
+let nextDirection = { row: 0, col: 0 };
 
-  pacMan.row += rowToAdd;
-  pacMan.col += colToAdd;
-}
-
+//keys to change direction
 document.addEventListener("keydown", (e) => {
-  grid[pacMan.row][pacMan.col] = 0;
-  if (e.key === "ArrowDown") {
-    movePacmnan(1, 0);
+  switch (e.key) {
+    case "ArrowUp":
+      nextDirection = { row: -1, col: 0 };
+      break;
+    case "ArrowDown":
+      nextDirection = { row: 1, col: 0 };
+      break;
+    case "ArrowLeft":
+      nextDirection = { row: 0, col: -1 };
+      break;
+    case "ArrowRight":
+      nextDirection = { row: 0, col: 1 };
+      break;
   }
-  if (e.key === "ArrowUp") {
-    movePacmnan(-1, 0);
-  }
-  if (e.key === "ArrowLeft") {
-    movePacmnan(0, -1);
-  }
-  if (e.key === "ArrowRight") {
-    movePacmnan(0, 1);
+});
+
+//move - check if a new directoon is there, if so do that. If not keep going in the same direction
+function movePacman() {
+  const nextRow = pacMan.row + nextDirection.row;
+  const nextCol = pacMan.col + nextDirection.col;
+
+  //if the next row or colum is not "1" - wall ... chnage direction (if a nextdirection has been chosen)- and also stops you from going off the board
+  if (grid[nextRow]?.[nextCol] !== 1) {
+    currentDirection = { ...nextDirection };
   }
 
-  grid[pacMan.row][pacMan.col] = 3;
+  const moveRow = pacMan.row + currentDirection.row;
+  const moveCol = pacMan.col + currentDirection.col;
+
+  //if the move is not a wall, keep going - and replace the next grid with pacman ( i wonder if we can make this smoother)
+  if (grid[moveRow]?.[moveCol] !== 1) {
+    grid[pacMan.row][pacMan.col] = 0;
+    pacMan.row = moveRow;
+    pacMan.col = moveCol;
+    grid[pacMan.row][pacMan.col] = 3;
+  }
 
   drawBoard();
-});
+}
+
+//speed controls high is slow, low is fast
+const speed = 150;
+setInterval(movePacman, speed);
