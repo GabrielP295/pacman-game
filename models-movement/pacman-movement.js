@@ -1,4 +1,4 @@
-function movePacmnan(rowToAdd = 0, colToAdd = 0) {
+export function movePacmnan(rowToAdd = 0, colToAdd = 0) {
   if (grid[pacMan.row + rowToAdd][pacMan.col + colToAdd] === 1) {
     return;
   }
