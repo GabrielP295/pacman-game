@@ -33,7 +33,7 @@ function draw() {
 
   if (pacmanElement) {
     if (currentDirection.col === 1) {
-      pacmanElement.style.transform = "rotate(0deg)"; // Facing Right (Default)
+      pacmanElement.style.transform = "rotate(0deg)"; // Facing Right 
     } else if (currentDirection.col === -1) {
       pacmanElement.style.transform = "rotate(180deg)"; // Facing Left
     } else if (currentDirection.row === 1) {
