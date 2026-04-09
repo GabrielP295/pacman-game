@@ -41,9 +41,6 @@ function movePacman() {
     grid[pacMan.row][pacMan.col] = 3;
   }
 
-  drawBoard();
 }
 
-//speed controls high is slow, low is fast
-const speed = 150;
-setInterval(movePacman, speed);
+
