@@ -32,7 +32,12 @@ h1 {
 }
 
 .mans {
-  background-color: yellow;
+  border-radius: 50%;
+  background-color: transparent;
+  border-right: 10px solid transparent; 
+  border-top: 10px solid yellow;
+  border-left: 10px solid yellow;
+  border-bottom: 10px solid yellow;
 }
 
 .blank {
