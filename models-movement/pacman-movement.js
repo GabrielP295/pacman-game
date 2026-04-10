@@ -26,7 +26,7 @@ function movePacman() {
   const nextCol = pacMan.col + nextDirection.col;
 
   //if the next row or colum is not "1" - wall ... chnage direction (if a nextdirection has been chosen)- and also stops you from going off the board
-  if (grid[nextRow]?.[nextCol] !== 1) {
+  if (canTravelTo(grid, nextRow, nextCol)) {
     currentDirection = { ...nextDirection };
   }
 
@@ -34,13 +34,10 @@ function movePacman() {
   const moveCol = pacMan.col + currentDirection.col;
 
   //if the move is not a wall, keep going - and replace the next grid with pacman ( i wonder if we can make this smoother)
-  if (grid[moveRow]?.[moveCol] !== 1) {
+  if (canTravelTo(grid, moveRow, moveCol)) {
     grid[pacMan.row][pacMan.col] = 0;
     pacMan.row = moveRow;
     pacMan.col = moveCol;
     grid[pacMan.row][pacMan.col] = 3;
   }
-
 }
-
-

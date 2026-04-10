@@ -22,6 +22,10 @@ function update() {
 
   movePacman();
 
+  ghosts.forEach((ghost) => {
+    moveGhost(ghost);
+  });
+
   //I believe Gabriel will be writing this function with the implementation of ghosts.
   //   checkCollisions();
 }

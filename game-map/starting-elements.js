@@ -6,3 +6,10 @@ const ghostStartPositions = [
   { row: 9, col: 10 },
   { row: 9, col: 11 },
 ];
+
+const ghosts = [];
+for (const ghost of ghostStartPositions) {
+  ghosts.push({ ...ghost });
+}
+
+
