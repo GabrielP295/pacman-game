@@ -8,6 +8,8 @@ function drawBoard() {
 
       if (grid[row][col] === 1) {
         cell.classList.add("wall");
+      } else if (grid[row][col] === 2) {
+        cell.classList.add("ghosts");
       } else if (grid[row][col] === 3) {
         cell.classList.add("mans");
       } else {
@@ -18,5 +20,3 @@ function drawBoard() {
     }
   }
 }
-
-drawBoard();

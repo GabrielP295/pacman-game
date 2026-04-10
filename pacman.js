@@ -10,7 +10,7 @@ function gameLoop(currentTime) {
 
   const secondsSinceLastRender = (currentTime - lastTime) / 1000;
   if (secondsSinceLastRender < 1 / gameSpeed) return;
-  
+
   lastTime = currentTime;
 
   update();
@@ -21,14 +21,14 @@ function update() {
   if (isGameOver) return;
 
   movePacman();
-  
+
   //I believe Gabriel will be writing this function with the implementation of ghosts.
-//   checkCollisions(); 
+  //   checkCollisions();
 }
 
 function draw() {
   drawBoard();
-  
+
   const pacmanElement = document.querySelector(".mans");
 
   if (pacmanElement) {
@@ -47,7 +47,7 @@ function draw() {
 // Gabriel will call this function when a ghost touches Pac-Man
 function handleDeath() {
   lives--;
-  
+
   if (lives <= 0) {
     isGameOver = true;
     console.log("Game Over!");
@@ -60,28 +60,42 @@ function handleDeath() {
 // Resets entities to their starting spots without resetting the score/coins
 function resetPositions() {
   // 1. Clear Pac-Man's current spot on the grid
-  grid[pacMan.row][pacMan.col] = 0; 
-  
+  grid[pacMan.row][pacMan.col] = 0;
+
+  // Delete ghosts from current position on the grid
+  ghosts.forEach((ghost) => {
+    grid[ghost.row][ghost.col] = 0;
+  });
+
   // 2. Put Pac-Man back at the start
-  pacMan.row = 1; 
+  pacMan.row = 1;
   pacMan.col = 1;
   grid[pacMan.row][pacMan.col] = 3;
-  
+
   // 3. Reset the direction so he doesn't immediately run into a wall
   currentDirection = { row: 0, col: 0 };
   nextDirection = { row: 0, col: 0 };
 
-  // Gabriel will add code here later to reset the ghosts to the center box
+  // 4. Reset the ghosts to the center box
+  resetGhostToCenter();
+}
+
+function resetGhostToCenter() {
+  for (let i = 0; i < ghosts.length; i++) {
+    ghosts[i].row = ghostStartPositions[i].row;
+    ghosts[i].col = ghostStartPositions[i].col;
+    grid[ghosts[i].row][ghosts[i].col] = 2;
+  }
 }
 
 function restartGame() {
   lives = 3;
   isGameOver = false;
-  
+
   // Reset the map back to its original state (Victor's area)
   // For now, we will just reset positions
   resetPositions();
-  
+
   // Kick the loop back off!
   window.requestAnimationFrame(gameLoop);
 }
