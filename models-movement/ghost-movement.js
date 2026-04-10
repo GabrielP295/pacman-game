@@ -5,9 +5,9 @@ const directions = [
   { row: 0, col: 1 }, // right
 ];
 
-function calculateMinDistance(ghost, pacman) {
-  const rowDistance = Math.abs(ghost.row - pacman.row);
-  const colDistance = Math.abs(ghost.col - pacman.col);
+function calculateMinDistance(row, col, pacman) {
+  const rowDistance = Math.abs(row - pacman.row);
+  const colDistance = Math.abs(col - pacman.col);
   return Math.sqrt(rowDistance ** 2 + colDistance ** 2);
 }
 
@@ -27,9 +27,11 @@ function calculateBestDirection(ghost) {
       continue;
     }
 
-    newDistance = calculateMinDistance(ghost, pacMan);
-    minDistance = Math.min(minDistance, newDistance);
-    bestDirection = direction;
+    const newDistance = calculateMinDistance(possibleRow, possibleCol, pacMan);
+    if (newDistance < minDistance) {
+      minDistance = newDistance;
+      bestDirection = direction;
+    }
   }
 
   return bestDirection;
@@ -37,6 +39,8 @@ function calculateBestDirection(ghost) {
 
 function moveGhost(ghost) {
   const direction = calculateBestDirection(ghost);
+
+  if (!direction) return;
 
   grid[ghost.row][ghost.col] = 0;
   ghost.row += direction.row;
