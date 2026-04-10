@@ -16,6 +16,8 @@ function calculateBestDirection(ghost) {
   let bestDirection;
 
   for (const direction of directions) {
+    if (isOppositeDirection(direction, ghost.lastDirection)) continue;
+
     const possibleRow = ghost.row + direction.row;
     const possibleCol = ghost.col + direction.col;
 
@@ -37,13 +39,35 @@ function calculateBestDirection(ghost) {
   return bestDirection;
 }
 
+function isOppositeDirection(direction, ghostDirection) {
+  if(!direction || !ghostDirection) return false;
+  const reversed = reverseDirection(direction);
+  return reversed.row === ghostDirection.row && reversed.col === ghostDirection.col;
+}
+
+function reverseDirection(direction) {
+  return {
+    row: direction.row * -1,
+    col: direction.col * -1,
+  }
+}
+
 function moveGhost(ghost) {
   const direction = calculateBestDirection(ghost);
 
   if (!direction) return;
 
+  const nextRow = ghost.row + direction.row;
+  const nextCol = ghost.col + direction.col;
+
+  if (grid[nextRow]?.[nextCol] === 3) {
+    handleDeath();
+    return;
+  }
+
   grid[ghost.row][ghost.col] = 0;
-  ghost.row += direction.row;
-  ghost.col += direction.col;
+  ghost.row = nextRow;
+  ghost.col = nextCol;
   grid[ghost.row][ghost.col] = 2;
+  ghost.lastDirection = direction;
 }

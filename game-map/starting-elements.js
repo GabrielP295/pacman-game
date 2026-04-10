@@ -9,7 +9,7 @@ const ghostStartPositions = [
 
 const ghosts = [];
 for (const ghost of ghostStartPositions) {
-  ghosts.push({ ...ghost });
+  ghosts.push({ ...ghost, lastDirection: null });
 }
 
 

@@ -18,7 +18,10 @@ function gameLoop(currentTime) {
 }
 
 function update() {
-  if (isGameOver) return;
+  if (isGameOver) {
+    restartGame();
+    return;
+  }
 
   movePacman();
 
@@ -56,7 +59,6 @@ function handleDeath() {
   }
 
   isGameOver = true;
-  alert("Game Over!");
   resetPositions();
     // Cameron can plug in his UI code here later, e.g., showGameOverScreen()
 }
