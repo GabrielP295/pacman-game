@@ -25,9 +25,6 @@ function update() {
   ghosts.forEach((ghost) => {
     moveGhost(ghost);
   });
-
-  //I believe Gabriel will be writing this function with the implementation of ghosts.
-  //   checkCollisions();
 }
 
 function draw() {
@@ -51,14 +48,17 @@ function draw() {
 // Gabriel will call this function when a ghost touches Pac-Man
 function handleDeath() {
   lives--;
+  alert("You died!"); //temp popup to know when dead
 
-  if (lives <= 0) {
-    isGameOver = true;
-    console.log("Game Over!");
-    // Cameron can plug in his UI code here later, e.g., showGameOverScreen()
-  } else {
+  if (lives > 0) {
     resetPositions();
+    return;
   }
+
+  isGameOver = true;
+  alert("Game Over!");
+  resetPositions();
+    // Cameron can plug in his UI code here later, e.g., showGameOverScreen()
 }
 
 // Resets entities to their starting spots without resetting the score/coins

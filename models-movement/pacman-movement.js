@@ -33,6 +33,11 @@ function movePacman() {
   const moveRow = pacMan.row + currentDirection.row;
   const moveCol = pacMan.col + currentDirection.col;
 
+  if(grid[moveRow]?.[moveCol] === 2) {
+    handleDeath();
+    return;
+  }
+
   //if the move is not a wall, keep going - and replace the next grid with pacman ( i wonder if we can make this smoother)
   if (canTravelTo(grid, moveRow, moveCol)) {
     grid[pacMan.row][pacMan.col] = 0;
