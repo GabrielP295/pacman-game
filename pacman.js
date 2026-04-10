@@ -104,4 +104,4 @@ function restartGame() {
   window.requestAnimationFrame(gameLoop);
 }
 
-window.requestAnimationFrame(gameLoop);
+window.requestAnimationFrame(gameLoop); //starts game loop
