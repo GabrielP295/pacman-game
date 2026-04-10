@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "https://docs.google.com/document/d/16V4dqQ7mHpZwIlFFpnZazDmEYS1H-7WXvRmzPMPT5Es/edit?tab=t.0",
   "main": "pacman.js",
+  "type": "module",
   "scripts": {
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
@@ -13,12 +14,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/GabrielP295/pacman-game/issues"
   },
   "homepage": "https://github.com/GabrielP295/pacman-game#readme",
-  "dependencies": {
+  "devDependencies": {
     "jest": "^30.3.0"
   }
 }
