@@ -16,7 +16,7 @@ function resolveDirection(grid, pacMan, currentDirection, nextDirection) {
   const nextRow = pacMan.row + nextDirection.row;
   const nextCol = pacMan.col + nextDirection.col;
 
-  if ((grid, nextRow, nextCol)) {
+  if (canTravelTo(grid, nextRow, nextCol)) {
     return { ...nextDirection };
   }
   return { ...currentDirection };
