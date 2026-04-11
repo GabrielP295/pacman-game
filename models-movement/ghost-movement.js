@@ -11,7 +11,7 @@ function calculateMinDistance(row, col, pacman) {
   return Math.sqrt(rowDistance ** 2 + colDistance ** 2);
 }
 
-function calculateBestDirection(ghost) {
+function calculateBestDirection(ghost, grid, pacman) {
   let minDistance = Infinity;
   let bestDirection;
 
@@ -29,7 +29,7 @@ function calculateBestDirection(ghost) {
       continue;
     }
 
-    const newDistance = calculateMinDistance(possibleRow, possibleCol, pacMan);
+    const newDistance = calculateMinDistance(possibleRow, possibleCol, pacman);
     if (newDistance < minDistance) {
       minDistance = newDistance;
       bestDirection = direction;
@@ -40,7 +40,7 @@ function calculateBestDirection(ghost) {
 }
 
 function isOppositeDirection(direction, ghostDirection) {
-  if(!direction || !ghostDirection) return false;
+  if (!direction || !ghostDirection) return false;
   const reversed = reverseDirection(direction);
   return reversed.row === ghostDirection.row && reversed.col === ghostDirection.col;
 }
@@ -49,25 +49,20 @@ function reverseDirection(direction) {
   return {
     row: direction.row * -1,
     col: direction.col * -1,
-  }
+  };
 }
 
-function moveGhost(ghost) {
-  const direction = calculateBestDirection(ghost);
+function moveGhost(ghost, grid, pacman) {
+  const direction = calculateBestDirection(ghost, grid, pacman);
 
-  if (!direction) return;
+  if (!direction) return null;
 
   const nextRow = ghost.row + direction.row;
   const nextCol = ghost.col + direction.col;
 
-  if (grid[nextRow]?.[nextCol] === 3) {
-    handleDeath();
-    return;
-  }
-
-  grid[ghost.row][ghost.col] = 0;
-  ghost.row = nextRow;
-  ghost.col = nextCol;
-  grid[ghost.row][ghost.col] = 2;
-  ghost.lastDirection = direction;
+  return {
+    newPos: { row: nextRow, col: nextCol },
+    direction,
+    hitPacman: grid[nextRow]?.[nextCol] === 3,
+  };
 }
