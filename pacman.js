@@ -3,6 +3,16 @@ let isGameOver = false;
 let lastTime = 0;
 let gameSpeed = 6;
 
+// Create health counter (3 starting lives, max 5)
+const pacmanHealth = new HealthCounter(3, 5);
+
+// Create UI with hearts display
+const healthUI = new HealthCounterUI(pacmanHealth, 'health-display', {
+  style: 'hearts',
+  animateDamage: true
+});
+
+
 let currentDirection = { row: 0, col: 0 };
 let nextDirection = { row: 0, col: 0 };
 
@@ -75,6 +85,19 @@ function draw() {
       pacmanElement.style.transform = "rotate(90deg)"; // Facing Down
     } else if (currentDirection.row === -1) {
       pacmanElement.style.transform = "rotate(270deg)"; // Facing Up
+    }
+  }
+}
+
+// Handle ghost collisions
+function handleGhostCollision(pacman, ghosts) {
+  if (pacmanGhostCollision(pacman, ghosts)) {
+    pacmanHealth.takeDamage(1);
+    healthUI.animateDamage();
+    healthUI.update();
+    
+    if (!pacmanHealth.isAlive()) {
+      endGame();
     }
   }
 }
