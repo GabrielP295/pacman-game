@@ -7,11 +7,10 @@ let gameSpeed = 6;
 const pacmanHealth = new HealthCounter(3, 5);
 
 // Create UI with hearts display
-const healthUI = new HealthCounterUI(pacmanHealth, 'health-display', {
-  style: 'hearts',
-  animateDamage: true
+const healthUI = new HealthCounterUI(pacmanHealth, "health-display", {
+  style: "hearts",
+  animateDamage: true,
 });
-
 
 let currentDirection = { row: 0, col: 0 };
 let nextDirection = { row: 0, col: 0 };
@@ -37,12 +36,23 @@ function gameLoop(currentTime) {
 
 function update() {
   if (isGameOver) {
+    alert("game over - better luck next time");
     restartGame();
     return;
   }
 
-  currentDirection = resolveDirection(grid, pacMan, currentDirection, nextDirection);
-  const newPacmanPos = movePacman(pacMan, grid, currentDirection.row, currentDirection.col);
+  currentDirection = resolveDirection(
+    grid,
+    pacMan,
+    currentDirection,
+    nextDirection,
+  );
+  const newPacmanPos = movePacman(
+    pacMan,
+    grid,
+    currentDirection.row,
+    currentDirection.col,
+  );
 
   if (grid[newPacmanPos.row]?.[newPacmanPos.col] === 2) {
     handleDeath();
@@ -95,7 +105,7 @@ function handleGhostCollision(pacman, ghosts) {
     pacmanHealth.takeDamage(1);
     healthUI.animateDamage();
     healthUI.update();
-    
+
     if (!pacmanHealth.isAlive()) {
       endGame();
     }
@@ -104,17 +114,19 @@ function handleGhostCollision(pacman, ghosts) {
 
 // Gabriel will call this function when a ghost touches Pac-Man
 function handleDeath() {
-  lives--;
+  pacmanHealth.takeDamage(1);
+  healthUI.animateDamage();
+  healthUI.update();
   alert("You died!"); //temp popup to know when dead
 
-  if (lives > 0) {
+  if (pacmanHealth.isAlive()) {
     resetPositions();
     return;
   }
 
   isGameOver = true;
   resetPositions();
-    // Cameron can plug in his UI code here later, e.g., showGameOverScreen()
+  // Cameron can plug in his UI code here later, e.g., showGameOverScreen()
 }
 
 // Resets entities to their starting spots without resetting the score/coins
@@ -149,7 +161,8 @@ function resetGhostToCenter() {
 }
 
 function restartGame() {
-  lives = 3;
+  pacmanHealth.reset(3);
+  healthUI.update();
   isGameOver = false;
 
   // Reset the map back to its original state (Victor's area)
