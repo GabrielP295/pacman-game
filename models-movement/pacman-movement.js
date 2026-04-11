@@ -12,15 +12,11 @@ function keyToDirection(key) {
   return directionMap[key] || null;
 }
 
-function isWall(grid, row, col) {
-  return grid[row]?.[col] === 1;
-}
-
 function resolveDirection(grid, pacMan, currentDirection, nextDirection) {
   const nextRow = pacMan.row + nextDirection.row;
   const nextCol = pacMan.col + nextDirection.col;
 
-  if (!isWall(grid, nextRow, nextCol)) {
+  if ((grid, nextRow, nextCol)) {
     return { ...nextDirection };
   }
   return { ...currentDirection };
@@ -30,7 +26,7 @@ function getNextPosition(grid, pacMan, direction) {
   const moveRow = pacMan.row + direction.row;
   const moveCol = pacMan.col + direction.col;
 
-  if (!isWall(grid, moveRow, moveCol)) {
+  if (canTravelTo(grid, moveRow, moveCol)) {
     return { row: moveRow, col: moveCol };
   }
   return { row: pacMan.row, col: pacMan.col };
