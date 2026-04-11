@@ -12,6 +12,15 @@ const healthUI = new HealthCounterUI(pacmanHealth, 'health-display', {
   animateDamage: true
 });
 
+
+let currentDirection = { row: 0, col: 0 };
+let nextDirection = { row: 0, col: 0 };
+
+document.addEventListener("keydown", (e) => {
+  const dir = keyToDirection(e.key);
+  if (dir) nextDirection = dir;
+};
+
 function gameLoop(currentTime) {
   if (!isGameOver) {
     window.requestAnimationFrame(gameLoop);
@@ -32,11 +41,34 @@ function update() {
     return;
   }
 
-  movePacman();
+  currentDirection = resolveDirection(grid, pacMan, currentDirection, nextDirection);
+  const newPacmanPos = movePacman(pacMan, grid, currentDirection.row, currentDirection.col);
 
-  ghosts.forEach((ghost) => {
-    moveGhost(ghost);
-  });
+  if (grid[newPacmanPos.row]?.[newPacmanPos.col] === 2) {
+    handleDeath();
+    return;
+  }
+
+  grid[pacMan.row][pacMan.col] = 0;
+  pacMan.row = newPacmanPos.row;
+  pacMan.col = newPacmanPos.col;
+  grid[pacMan.row][pacMan.col] = 3;
+
+  for (const ghost of ghosts) {
+    const result = moveGhost(ghost, grid, pacMan);
+    if (!result) continue;
+
+    if (result.hitPacman) {
+      handleDeath();
+      return;
+    }
+
+    grid[ghost.row][ghost.col] = 0;
+    ghost.row = result.newPos.row;
+    ghost.col = result.newPos.col;
+    grid[ghost.row][ghost.col] = 2;
+    ghost.lastDirection = result.direction;
+  }
 }
 
 function draw() {
