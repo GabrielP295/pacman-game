@@ -19,7 +19,7 @@ let nextDirection = { row: 0, col: 0 };
 document.addEventListener("keydown", (e) => {
   const dir = keyToDirection(e.key);
   if (dir) nextDirection = dir;
-};
+});
 
 function gameLoop(currentTime) {
   if (!isGameOver) {
