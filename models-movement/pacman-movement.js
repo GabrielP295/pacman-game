@@ -1,46 +1,44 @@
-//starting no movement
-let currentDirection = { row: 0, col: 0 };
-let nextDirection = { row: 0, col: 0 };
+function movePacman(pacman, grid, rowToAdd, colToAdd) {
+  return getNextPosition(grid, pacman, { row: rowToAdd, col: colToAdd });
+}
 
-//keys to change direction
-document.addEventListener("keydown", (e) => {
-  switch (e.key) {
-    case "ArrowUp":
-      nextDirection = { row: -1, col: 0 };
-      break;
-    case "ArrowDown":
-      nextDirection = { row: 1, col: 0 };
-      break;
-    case "ArrowLeft":
-      nextDirection = { row: 0, col: -1 };
-      break;
-    case "ArrowRight":
-      nextDirection = { row: 0, col: 1 };
-      break;
-  }
-});
+function keyToDirection(key) {
+  const directionMap = {
+    ArrowUp: { row: -1, col: 0 },
+    ArrowDown: { row: 1, col: 0 },
+    ArrowLeft: { row: 0, col: -1 },
+    ArrowRight: { row: 0, col: 1 },
+  };
+  return directionMap[key] || null;
+}
 
-//move - check if a new directoon is there, if so do that. If not keep going in the same direction
-function movePacman() {
+function isWall(grid, row, col) {
+  return grid[row]?.[col] === 1;
+}
+
+function resolveDirection(grid, pacMan, currentDirection, nextDirection) {
   const nextRow = pacMan.row + nextDirection.row;
   const nextCol = pacMan.col + nextDirection.col;
 
-  //if the next row or colum is not "1" - wall ... chnage direction (if a nextdirection has been chosen)- and also stops you from going off the board
-  if (grid[nextRow]?.[nextCol] !== 1) {
-    currentDirection = { ...nextDirection };
+  if (!isWall(grid, nextRow, nextCol)) {
+    return { ...nextDirection };
   }
-
-  const moveRow = pacMan.row + currentDirection.row;
-  const moveCol = pacMan.col + currentDirection.col;
-
-  //if the move is not a wall, keep going - and replace the next grid with pacman ( i wonder if we can make this smoother)
-  if (grid[moveRow]?.[moveCol] !== 1) {
-    grid[pacMan.row][pacMan.col] = 0;
-    pacMan.row = moveRow;
-    pacMan.col = moveCol;
-    grid[pacMan.row][pacMan.col] = 3;
-  }
-
+  return { ...currentDirection };
 }
 
+function getNextPosition(grid, pacMan, direction) {
+  const moveRow = pacMan.row + direction.row;
+  const moveCol = pacMan.col + direction.col;
 
+  if (!isWall(grid, moveRow, moveCol)) {
+    return { row: moveRow, col: moveCol };
+  }
+  return { row: pacMan.row, col: pacMan.col };
+}
+
+function applyMove(grid, oldPos, newPos) {
+  const newGrid = grid.map((row) => [...row]);
+  newGrid[oldPos.row][oldPos.col] = 0;
+  newGrid[newPos.row][newPos.col] = 3;
+  return newGrid;
+}

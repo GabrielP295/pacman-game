@@ -24,5 +24,5 @@ Contributors names and contact info
 [Sam Reti](https://github.com/Sam-Reti)  
 [Bryan Sievering](https://github.com/Bryan-Sievering)  
 [Anas Al-rawi](https://github.com/AnasMAlrawi)  
-[Sabrina Karim](https://github.com/pdudette151)
+[Sabrina Karim](https://github.com/pdudette151)  
 Cam
