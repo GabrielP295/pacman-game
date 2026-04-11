@@ -10,20 +10,32 @@ class HealthCounter {
    * @param {number} maxHealth - Maximum health allowed (default: 5)
    */
   constructor(initialHealth = 3, maxHealth = 5) {
-    if (initialHealth < 0) {
-      throw new Error('Health cannot be negative');
-    }
-    if (maxHealth < 1) {
-      throw new Error('Max health must be at least 1');
-    }
-    if (initialHealth > maxHealth) {
-      throw new Error('Initial health cannot exceed max health');
-    }
+  this.validateNonNegativeHealth(initialHealth);
+  this.validateMinMaxHealth(maxHealth);
+  this.validateInitialNotExceedsMax(initialHealth, maxHealth);
 
-    this.health = initialHealth;
-    this.maxHealth = maxHealth;
-    this.healthHistory = [initialHealth];
+  this.health = initialHealth;
+  this.maxHealth = maxHealth;
+  this.healthHistory = [initialHealth];
+}
+
+validateNonNegativeHealth(initialHealth) {
+  if (initialHealth < 0) {
+    throw new Error('Health cannot be negative');
   }
+}
+
+validateMinMaxHealth(maxHealth) {
+  if (maxHealth < 1) {
+    throw new Error('Max health must be at least 1');
+  }
+}
+  
+validateInitialNotExceedsMax(initialHealth, maxHealth) {
+  if (initialHealth > maxHealth) {
+    throw new Error('Initial health cannot exceed max health');
+  }
+}
 
   /**
    * Reduce health by a specified amount
