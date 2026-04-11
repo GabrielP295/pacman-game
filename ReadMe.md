@@ -19,10 +19,10 @@ See this [Design Doc](https://docs.google.com/document/d/16V4dqQ7mHpZwIlFFpnZazD
 Contributors names and contact info
 
 
-[Jonathan C](https://github.com/Jonah314)
-[Gabriel Paniagua](https://github.com/GabrielP295)
-[Sam Reti](https://github.com/Sam-Reti)
-[Bryan Sievering](https://github.com/Bryan-Sievering)
-[Anas Al-rawi](https://github.com/AnasMAlrawi)
-
-
+[Jonathan C](https://github.com/Jonah314)  
+[Gabriel Paniagua](https://github.com/GabrielP295)  
+[Sam Reti](https://github.com/Sam-Reti)  
+[Bryan Sievering](https://github.com/Bryan-Sievering)  
+[Anas Al-rawi](https://github.com/AnasMAlrawi)  
+[Sabrina Karim](https://github.com/pdudette151)
+Cam
