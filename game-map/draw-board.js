@@ -1,4 +1,6 @@
-function drawBoard() {
+import { board } from "./starting-elements.js";
+
+export function drawBoard(grid) {
   board.innerHTML = "";
 
   for (let row = 0; row < grid.length; row++) {

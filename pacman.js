@@ -1,3 +1,12 @@
+import { HealthCounter } from "./models-health/health-counter.js";
+import { HealthCounterUI } from "./models-health/health-counter-ui.js";
+import {movePacman, keyToDirection, resolveDirection,getNextPosition,applyMove} from "./models-movement/pacman-movement.js";
+import { moveGhost } from "./models-movement/ghost-movement.js";
+import { drawBoard } from "./game-map/draw-board.js";
+import { board, pacMan, ghosts, ghostStartPositions } from "./game-map/starting-elements.js";
+import { grid } from "./game-map/grid.js";
+
+
 let lives = 3;
 let isGameOver = false;
 let lastTime = 0;
@@ -82,7 +91,7 @@ function update() {
 }
 
 function draw() {
-  drawBoard();
+  drawBoard(grid);
 
   const pacmanElement = document.querySelector(".mans");
 
