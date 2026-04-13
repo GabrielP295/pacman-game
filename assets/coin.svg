@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Gold dollar coin">
+  <defs>
+    <radialGradient id="coinFace" cx="38%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffe27a"/>
+      <stop offset="45%" stop-color="#ffc933"/>
+      <stop offset="100%" stop-color="#f1a900"/>
+    </radialGradient>
+  </defs>
+  <circle cx="128" cy="128" r="108" fill="#000000" opacity="0.9"/>
+  <circle cx="118" cy="120" r="108" fill="url(#coinFace)"/>
+  <circle cx="118" cy="120" r="94" fill="none" stroke="#ffd764" stroke-width="8"/>
+  <path d="M172 42a98 98 0 0 1 28 17a98 98 0 0 1 32 87" fill="none" stroke="#000000" stroke-linecap="round" stroke-width="9"/>
+  <path d="M39 150a98 98 0 0 1-3-22a98 98 0 0 1 8-40" fill="none" stroke="#fff2a8" stroke-linecap="round" stroke-width="7"/>
+  <text x="118" y="162" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="124" font-weight="700" fill="#ffffff">$</text>
+</svg>

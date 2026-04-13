@@ -12,6 +12,8 @@ function drawBoard() {
         cell.classList.add("ghosts");
       } else if (grid[row][col] === 3) {
         cell.classList.add("mans");
+      } else if (grid[row][col] === 4) {
+        cell.classList.add("coin");
       } else {
         cell.classList.add("blank");
       }

@@ -3,6 +3,12 @@ let isGameOver = false;
 let lastTime = 0;
 let gameSpeed = 6;
 
+// Coin and score tracking variables
+let score = 0;
+let level = 1;
+let coinsEaten = 0;
+let totalCoinsOnMap = 100;
+
 // Create health counter (3 starting lives, max 5)
 const pacmanHealth = new HealthCounter(3, 5);
 
@@ -11,6 +17,20 @@ const healthUI = new HealthCounterUI(pacmanHealth, "health-display", {
   style: "hearts",
   animateDamage: true,
 });
+
+// Initialize score display
+updateScoreDisplay();
+
+// Initialize the grid with coins for the first level
+const initialGridWithCoins = getGrid(level, grids, 1);
+for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
+        grid[row][col] = initialGridWithCoins[row][col];
+    }
+}
+
+// Redraw the board with coins
+drawBoard();
 
 let currentDirection = { row: 0, col: 0 };
 let nextDirection = { row: 0, col: 0 };
@@ -64,6 +84,19 @@ function update() {
   pacMan.col = newPacmanPos.col;
   grid[pacMan.row][pacMan.col] = 3;
 
+  // Check if Pac-Man ate a coin and update score
+  if (eatCoinAtPosition(pacMan.row, pacMan.col, grid)) {
+    score += 10;  // Add 10 points per coin
+    coinsEaten++;
+    updateScoreDisplay();
+    
+    // Check if all coins are eaten (level win condition)
+    const coinsRemaining = countCoinsRemaining(grid);
+    if (coinsRemaining === 0) {
+      levelUp();
+    }
+  }
+
   for (const ghost of ghosts) {
     const result = moveGhost(ghost, grid, pacMan);
     if (!result) continue;
@@ -97,6 +130,43 @@ function draw() {
       pacmanElement.style.transform = "rotate(270deg)"; // Facing Up
     }
   }
+}
+
+// Update the score and level display on the page
+function updateScoreDisplay() {
+  const scoreDisplay = document.getElementById("score-display");
+  const levelDisplay = document.getElementById("level-display");
+  
+  if (scoreDisplay) {
+    scoreDisplay.textContent = `Score: ${score}`;
+  }
+  if (levelDisplay) {
+    levelDisplay.textContent = `Level: ${level}`;
+  }
+}
+
+// Handle level up: increase speed, load new grid with coins
+function levelUp() {
+  level++;
+  coinsEaten = 0;
+  gameSpeed = 6 + (level - 1);  // Increase speed each level
+  
+  // Load new grid with coins
+  const newGridWithCoins = getGrid(level, grids, 1);
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
+      grid[row][col] = newGridWithCoins[row][col];
+    }
+  }
+  
+  // Reset Pac-Man position
+  grid[pacMan.row][pacMan.col] = 0;
+  pacMan.row = 1;
+  pacMan.col = 1;
+  grid[pacMan.row][pacMan.col] = 3;
+  
+  updateScoreDisplay();
+  console.log(`Level Up! Now on Level ${level} with speed ${gameSpeed}`);
 }
 
 // Handle ghost collisions

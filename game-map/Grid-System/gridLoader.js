@@ -1,10 +1,7 @@
-import { cloneGrid, fillSpacesWithCoins } from "./gridUtils";
-
 // RoundCount an optional parameter that determines which grid to return based on the current round count
 // each level will be repeated "roundCount" times before moving on to the next level
 
-
-export function getGrid(level, gridArray, roundCount =1) {
+function getGrid(level, gridArray, roundCount =1) {
     if(!gridArray || gridArray.length === 0){
         throw new Error("Grid array is empty or undefined");
     }
