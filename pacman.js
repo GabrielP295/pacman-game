@@ -1,7 +1,20 @@
+import { HealthCounter } from "./models-health/health-counter.js";
+import { HealthCounterUI } from "./models-health/health-counter-ui.js";
+import {movePacman, keyToDirection, resolveDirection,getNextPosition,applyMove} from "./models-movement/pacman-movement.js";
+import { moveGhost } from "./models-movement/ghost-movement.js";
+import { drawBoard } from "./game-map/draw-board.js";
+import { board, pacMan, ghosts, ghostStartPositions } from "./game-map/starting-elements.js";
+import { grids } from "./game-map/Grid-System/grids.js";
+import { getGrid } from "./game-map/Grid-System/gridLoader.js";
+
+let level = 5;
+let grid = getGrid(level, grids);
 let lives = 3;
 let isGameOver = false;
 let lastTime = 0;
 let gameSpeed = 6;
+
+
 
 // Create health counter (3 starting lives, max 5)
 const pacmanHealth = new HealthCounter(3, 5);
@@ -82,7 +95,7 @@ function update() {
 }
 
 function draw() {
-  drawBoard();
+  drawBoard(grid);
 
   const pacmanElement = document.querySelector(".mans");
 

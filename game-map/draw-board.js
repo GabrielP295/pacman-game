@@ -1,3 +1,5 @@
+import { board } from "./starting-elements.js";
+
 const gridContentMap = {
   0: "blank",
   1: "wall",
@@ -5,8 +7,7 @@ const gridContentMap = {
   3: "mans",
 }
 
-
-function drawBoard() {
+export function drawBoard(grid) {
   board.innerHTML = "";
 
   for (let row = 0; row < grid.length; row++) {

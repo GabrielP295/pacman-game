@@ -1,8 +1,10 @@
-function movePacman(pacman, grid, rowToAdd, colToAdd) {
+import { canTravelTo } from "./movement.js";
+
+export function movePacman(pacman, grid, rowToAdd, colToAdd) {
   return getNextPosition(grid, pacman, { row: rowToAdd, col: colToAdd });
 }
 
-function keyToDirection(key) {
+export function keyToDirection(key) {
   const directionMap = {
     ArrowUp: { row: -1, col: 0 },
     ArrowDown: { row: 1, col: 0 },
@@ -12,7 +14,7 @@ function keyToDirection(key) {
   return directionMap[key] || null;
 }
 
-function resolveDirection(grid, pacMan, currentDirection, nextDirection) {
+export function resolveDirection(grid, pacMan, currentDirection, nextDirection) {
   const nextRow = pacMan.row + nextDirection.row;
   const nextCol = pacMan.col + nextDirection.col;
 
@@ -22,7 +24,7 @@ function resolveDirection(grid, pacMan, currentDirection, nextDirection) {
   return { ...currentDirection };
 }
 
-function getNextPosition(grid, pacMan, direction) {
+export function getNextPosition(grid, pacMan, direction) {
   const moveRow = pacMan.row + direction.row;
   const moveCol = pacMan.col + direction.col;
 
@@ -32,7 +34,7 @@ function getNextPosition(grid, pacMan, direction) {
   return { row: pacMan.row, col: pacMan.col };
 }
 
-function applyMove(grid, oldPos, newPos) {
+export function applyMove(grid, oldPos, newPos) {
   const newGrid = grid.map((row) => [...row]);
   newGrid[oldPos.row][oldPos.col] = 0;
   newGrid[newPos.row][newPos.col] = 3;

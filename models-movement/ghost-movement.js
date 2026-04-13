@@ -1,3 +1,5 @@
+import { canTravelTo } from "./movement.js";
+
 const directions = [
   { row: -1, col: 0 }, //up
   { row: 1, col: 0 }, //down
@@ -52,7 +54,7 @@ function reverseDirection(direction) {
   };
 }
 
-function moveGhost(ghost, grid, pacman) {
+export function moveGhost(ghost, grid, pacman) {
   const direction = calculateBestDirection(ghost, grid, pacman);
 
   if (!direction) return null;
