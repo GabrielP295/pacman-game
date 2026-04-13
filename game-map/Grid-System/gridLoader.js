@@ -1,4 +1,4 @@
-import { cloneGrid, fillSpacesWithCoins } from "./gridUtils";
+import { cloneGrid, fillSpacesWithCoins } from "./gridUtils.js";
 
 // RoundCount an optional parameter that determines which grid to return based on the current round count
 // each level will be repeated "roundCount" times before moving on to the next level
@@ -20,5 +20,5 @@ export function getGrid(level, gridArray, roundCount =1) {
     let adjustedLevel = Math.ceil(level/roundCount);
     let index = (adjustedLevel-1) % gridArray.length;
     // Return a deep copy of the grid to prevent mutations to the original grid
-        return fillSpacesWithCoins(cloneGrid(gridArray[index]));
+        return cloneGrid(gridArray[index]);
 }
