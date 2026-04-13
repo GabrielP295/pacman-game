@@ -3,7 +3,7 @@
  * Renders the health counter display in the DOM
  */
 
-class HealthCounterUI {
+export class HealthCounterUI {
   /**
    * Initialize the UI renderer
    * @param {HealthCounter} healthCounter - The health counter instance
