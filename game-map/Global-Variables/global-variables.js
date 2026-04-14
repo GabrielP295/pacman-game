@@ -31,3 +31,8 @@ gV.healthUI = new HealthCounterUI(gV.pacmanHealth, "health-display", {
     style: "hearts",
     animateDamage: true,
   });
+
+for (const ghost of gV.ghosts) {
+  ghost.underlyingTile = gV.grid[ghost.row][ghost.col];
+  gV.grid[ghost.row][ghost.col] = 2;
+}

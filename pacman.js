@@ -7,7 +7,7 @@ import { draw } from "./game-map/draw.js";
 import { gV } from "./game-map/Global-Variables/global-variables.js";
 import { getGrid } from "./game-map/Grid-System/gridLoader.js";
 import { grids } from "./game-map/Grid-System/grids.js";
-import { countCoinsRemaining } from "./game-map/Grid-System/coinGrid.js";
+import { countCoinsIncludingGhosts } from "./game-map/Grid-System/coinGrid.js";
 import {
   createScoreState,
   collectCoin,
@@ -69,7 +69,7 @@ function update(currentTime) {
       collectCoin(scoreState);
       updateStatsDisplay(scoreState);
 
-      if (shouldLevelUp(countCoinsRemaining(gV.grid))) {
+      if (shouldLevelUp(countCoinsIncludingGhosts(gV.grid, gV.ghosts))) {
         levelUp();
       }
     }

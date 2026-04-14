@@ -49,6 +49,12 @@ export function countCoinsRemaining(grid) {
   return coinCount;
 }
 
+export function countCoinsIncludingGhosts(grid, ghosts = []) {
+  const visibleCoins = countCoinsRemaining(grid);
+  const hiddenCoins = ghosts.filter((ghost) => ghost.underlyingTile === COIN_TILE).length;
+  return visibleCoins + hiddenCoins;
+}
+
 export function hasNoCoinsRemaining(grid) {
   return countCoinsRemaining(grid) === 0;
 }

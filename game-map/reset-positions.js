@@ -6,7 +6,7 @@ export function resetPositions(gV){
   
     // Delete ghosts from current position on the grid
     gV.ghosts.forEach((ghost) => {
-      gV.grid[ghost.row][ghost.col] = 0;
+      gV.grid[ghost.row][ghost.col] = ghost.underlyingTile;
     });
   
     // 2. Put Pac-Man back at the start
@@ -26,6 +26,8 @@ export function resetGhostToCenter(gV) {
   for (let i = 0; i < gV.ghosts.length; i++) {
     gV.ghosts[i].row = gV.ghostStartPositions[i].row;
     gV.ghosts[i].col = gV.ghostStartPositions[i].col;
+    gV.ghosts[i].lastDirection = null;
+    gV.ghosts[i].underlyingTile = gV.grid[gV.ghosts[i].row][gV.ghosts[i].col];
     gV.grid[gV.ghosts[i].row][gV.ghosts[i].col] = 2;
   }
 }
