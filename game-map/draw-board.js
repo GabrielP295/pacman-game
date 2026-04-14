@@ -1,4 +1,4 @@
-import { board } from "./starting-elements.js";
+import { board } from "./Global-Variables/starting-elements.js";
 
 const gridContentMap = {
   0: "blank",
