@@ -1,23 +1,3 @@
-import { HealthCounter } from "./models-health/health-counter.js";
-import { HealthCounterUI } from "./models-health/health-counter-ui.js";
-import {movePacman, keyToDirection, resolveDirection,getNextPosition,applyMove} from "./models-movement/pacman-movement.js";
-import { moveGhost } from "./models-movement/ghost-movement.js";
-import { drawBoard } from "./game-map/draw-board.js";
-import { board, pacMan, ghosts, ghostStartPositions } from "./game-map/starting-elements.js";
-import { grids } from "./game-map/Grid-System/grids.js";
-import { getGrid } from "./game-map/Grid-System/gridLoader.js";
-
-let level = 3;
-let grid = getGrid(level, grids);
-let lives = 3;
-let isGameOver = false;
-
-let pacmanSpeed =8;
-let ghostSpeed = 6;
-let lastPacmanMove =0;
-let lastGhostMove =0;
-
-
 
 import {movePacman, keyToDirection, resolveDirection,getNextPosition,applyMove} from "./models-movement/pacman-movement.js";
 import { updatePacmanPosition } from "./models-movement/update-pacman-position.js";
@@ -40,76 +20,30 @@ function gameLoop(currentTime) {
 
 
   update(currentTime);
-  draw();
+  draw(gV);
 }
 
 function update(currentTime) {
-  if (isGameOver) {
+  if (gV.isGameOver) {
     alert("game over - better luck next time");
     restartGame();
     return;
   }
 
     // PACMAN TIMER
-  if ((currentTime - lastPacmanMove) / 1000 >= 1 / pacmanSpeed) {
-    updatePacman();
-    lastPacmanMove = currentTime;
-  }
+  if ((currentTime - gV.lastPacmanMove) / 1000 >= 1 / gV.pacmanSpeed) {
+    //if updatePacmanPosition returns true, that means pacman collided with a ghost and we should handle death  
+    if(updatePacmanPosition(gV.grid, gV.pacMan, gV.currentDirection, gV.nextDirection)===true) {
+      const died = handleDeath(gV.pacmanHealth, gV.healthUI);
 
-  // GHOST TIMER
-  if ((currentTime - lastGhostMove) / 1000 >= 1 / ghostSpeed) {
-    updateGhosts();
-    lastGhostMove = currentTime;
-  }
-
-  function updatePacman() {
-    currentDirection = resolveDirection(
-      grid,
-      pacMan,
-      currentDirection,
-      nextDirection
-    );
-
-    currentDirection = resolveDirection(
-      grid,
-      pacMan,
-      currentDirection,
-      nextDirection,
-    );
-    const newPacmanPos = movePacman(
-      pacMan,
-      grid,
-      currentDirection.row,
-      currentDirection.col,
-    );
-
-    if (grid[newPacmanPos.row]?.[newPacmanPos.col] === 2) {
-      handleDeath();
-      return;
-    }
-
-    grid[pacMan.row][pacMan.col] = 0;
-    pacMan.row = newPacmanPos.row;
-    pacMan.col = newPacmanPos.col;
-    grid[pacMan.row][pacMan.col] = 3;
-}
-
-function updateGhosts() {
-    for (const ghost of ghosts) {
-      const result = moveGhost(ghost, grid, pacMan);
-      if (!result) continue;
-
-      if (result.hitPacman) {
-        handleDeath();
+      if (died) {
+        gV.isGameOver = true;
         return;
       }
 
-      grid[ghost.row][ghost.col] = 0;
-      ghost.row = result.newPos.row;
-      ghost.col = result.newPos.col;
-      grid[ghost.row][ghost.col] = 2;
-      ghost.lastDirection = result.direction;
-    }
+      resetPositions(gV);
+    } 
+    gV.lastPacmanMove = currentTime;
   }
 
   // GHOST TIMER
