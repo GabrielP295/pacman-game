@@ -25,4 +25,5 @@ Contributors names and contact info
 [Bryan Sievering](https://github.com/Bryan-Sievering)  
 [Anas Al-rawi](https://github.com/AnasMAlrawi)  
 [Sabrina Karim](https://github.com/pdudette151)  
-[Cameron](https://github.com/AKCameron87)  
+[Cameron](https://github.com/AKCameron87)
+[Jason](https://github.com/Upserge)

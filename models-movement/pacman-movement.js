@@ -1,4 +1,4 @@
-import { canTravelTo } from "./movement.js";
+import { canTravelTo, getTeleportDestination } from "./movement.js";
 
 export function movePacman(pacman, grid, rowToAdd, colToAdd) {
   return getNextPosition(grid, pacman, { row: rowToAdd, col: colToAdd });
@@ -28,10 +28,12 @@ export function getNextPosition(grid, pacMan, direction) {
   const moveRow = pacMan.row + direction.row;
   const moveCol = pacMan.col + direction.col;
 
-  if (canTravelTo(grid, moveRow, moveCol)) {
-    return { row: moveRow, col: moveCol };
+  if (!canTravelTo(grid, moveRow, moveCol)) {
+    return { row: pacMan.row, col: pacMan.col };
   }
-  return { row: pacMan.row, col: pacMan.col };
+
+  return getTeleportDestination(grid, moveRow, moveCol, direction)
+    ?? { row: moveRow, col: moveCol };
 }
 
 export function applyMove(grid, oldPos, newPos) {
