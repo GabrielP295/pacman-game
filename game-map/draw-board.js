@@ -5,6 +5,7 @@ const gridContentMap = {
   1: "wall",
   2: "ghosts",
   3: "mans",
+  8: "tunnel",
 }
 
 export function drawBoard(grid) {

@@ -10,17 +10,14 @@ export function updateGhosts(gV) {
       const result = moveGhost(ghost, gV.grid, gV.pacMan);
       if (!result) continue;
 
-    if (result.hitPacman) {
-        const died = handleDeath(gV.pacmanHealth, gV.healthUI);
+      if (!result.hitPacman) return;
+      const died = handleDeath(gV.pacmanHealth, gV.healthUI);
 
-        if (died) {
-            gV.isGameOver = true;
-            return;
-        }
-
-        resetPositions(gV);
+      if (died) {
+        gV.isGameOver = true;
         return;
-    }
+      }
+      resetPositions(gV);
 
       gV.grid[ghost.row][ghost.col] = 0;
       ghost.row = result.newPos.row;
