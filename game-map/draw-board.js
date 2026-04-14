@@ -1,4 +1,15 @@
-function drawBoard() {
+import { board } from "./starting-elements.js";
+
+const gridContentMap = {
+  0: "blank",
+  1: "wall",
+  2: "ghosts",
+  3: "mans",
+  4: "coin",
+  8: "tunnel",
+};
+
+export function drawBoard(grid) {
   board.innerHTML = "";
 
   for (let row = 0; row < grid.length; row++) {
@@ -6,17 +17,11 @@ function drawBoard() {
       const cell = document.createElement("div");
       cell.classList.add("cell");
 
-      if (grid[row][col] === 1) {
-        cell.classList.add("wall");
-      } else if (grid[row][col] === 2) {
-        cell.classList.add("ghosts");
-      } else if (grid[row][col] === 3) {
-        cell.classList.add("mans");
-      } else if (grid[row][col] === 4) {
-        cell.classList.add("coin");
-      } else {
-        cell.classList.add("blank");
-      }
+      let content = gridContentMap[grid[row][col]];
+
+      if (!content) continue;
+
+      cell.classList.add(content);
 
       board.appendChild(cell);
     }

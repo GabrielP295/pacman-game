@@ -1,64 +1,29 @@
-// Score tracking helpers for Pac-Man.
-// Wrapped to avoid leaking names like `score` and `level` into the browser global scope.
+export const COIN_POINTS = 10;
+export const STARTING_LEVEL = 1;
 
-(function attachScoreCalculator(globalScope) {
-  let score = 0;
-  let level = 1;
-  let coinsEaten = 0;
-
-  const points = {
-    coinEaten: 10,
+export function createScoreState(initialLevel = STARTING_LEVEL) {
+  return {
+    score: 0,
+    level: initialLevel,
+    coinsEaten: 0,
   };
+}
 
-  function addCoinPoints() {
-    score += points.coinEaten;
-    coinsEaten++;
-    return score;
-  }
+export function collectCoin(scoreState, points = COIN_POINTS) {
+  scoreState.score += points;
+  scoreState.coinsEaten++;
+  return scoreState.score;
+}
 
-  function getScore() {
-    return score;
-  }
+export function advanceLevel(scoreState) {
+  scoreState.level++;
+  scoreState.coinsEaten = 0;
+  return scoreState.level;
+}
 
-  function getLevel() {
-    return level;
-  }
-
-  function getCoinsEaten() {
-    return coinsEaten;
-  }
-
-  function advanceLevel() {
-    level++;
-    coinsEaten = 0;
-    return level;
-  }
-
-  function resetScore() {
-    score = 0;
-    level = 1;
-    coinsEaten = 0;
-  }
-
-  function getGameSpeedForLevel() {
-    return 6 + (level - 1);
-  }
-
-  const scoreCalculator = {
-    addCoinPoints,
-    getScore,
-    getLevel,
-    getCoinsEaten,
-    advanceLevel,
-    resetScore,
-    getGameSpeedForLevel,
-  };
-
-  if (globalScope) {
-    globalScope.scoreCalculator = scoreCalculator;
-  }
-
-  if (typeof module !== "undefined" && module.exports) {
-    module.exports = scoreCalculator;
-  }
-})(typeof window !== "undefined" ? window : globalThis);
+export function resetScoreState(scoreState, startingLevel = STARTING_LEVEL) {
+  scoreState.score = 0;
+  scoreState.level = startingLevel;
+  scoreState.coinsEaten = 0;
+  return scoreState;
+}

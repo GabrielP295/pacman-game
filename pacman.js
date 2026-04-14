@@ -1,36 +1,53 @@
-let lives = 3;
+import { HealthCounter } from "./models-health/health-counter.js";
+import { HealthCounterUI } from "./models-health/health-counter-ui.js";
+import {
+  movePacman,
+  keyToDirection,
+  resolveDirection,
+} from "./models-movement/pacman-movement.js";
+import { moveGhost } from "./models-movement/ghost-movement.js";
+import { drawBoard } from "./game-map/draw-board.js";
+import {
+  pacMan,
+  ghosts,
+  ghostStartPositions,
+} from "./game-map/starting-elements.js";
+import { grids } from "./game-map/Grid-System/grids.js";
+import { getGrid } from "./game-map/Grid-System/gridLoader.js";
+import {
+  eatCoinAtPosition,
+  countCoinsRemaining,
+} from "./game-map/Grid-System/coinGrid.js";
+import {
+  createScoreState,
+  collectCoin,
+  advanceLevel,
+  resetScoreState,
+  STARTING_LEVEL,
+} from "./score-logic/scoreCalculator.js";
+import { shouldLevelUp, getSpeedForLevel } from "./score-logic/scoreUtil.js";
+import { updateStatsDisplay } from "./score-logic/statsDisplay.js";
+
+const BASE_PACMAN_SPEED = 8;
+const BASE_GHOST_SPEED = 6;
+
+const scoreState = createScoreState();
+let grid = getGrid(scoreState.level, grids, 1);
 let isGameOver = false;
-let lastTime = 0;
-let gameSpeed = 6;
 
-// Coin and score tracking variables
-let score = 0;
-let level = 1;
-let coinsEaten = 0;
-let totalCoinsOnMap = 100;
+let pacmanSpeed = BASE_PACMAN_SPEED;
+let ghostSpeed = BASE_GHOST_SPEED;
+let lastPacmanMove = 0;
+let lastGhostMove = 0;
 
-// Create health counter (3 starting lives, max 5)
 const pacmanHealth = new HealthCounter(3, 5);
-
-// Create UI with hearts display
 const healthUI = new HealthCounterUI(pacmanHealth, "health-display", {
   style: "hearts",
   animateDamage: true,
 });
 
-// Initialize score display
-updateScoreDisplay();
-
-// Initialize the grid with coins for the first level
-const initialGridWithCoins = getGrid(level, grids, 1);
-for (let row = 0; row < grid.length; row++) {
-    for (let col = 0; col < grid[row].length; col++) {
-        grid[row][col] = initialGridWithCoins[row][col];
-    }
-}
-
-// Redraw the board with coins
-drawBoard();
+updateStatsDisplay(scoreState);
+drawBoard(grid);
 
 let currentDirection = { row: 0, col: 0 };
 let nextDirection = { row: 0, col: 0 };
@@ -45,28 +62,31 @@ function gameLoop(currentTime) {
     window.requestAnimationFrame(gameLoop);
   }
 
-  const secondsSinceLastRender = (currentTime - lastTime) / 1000;
-  if (secondsSinceLastRender < 1 / gameSpeed) return;
-
-  lastTime = currentTime;
-
-  update();
+  update(currentTime);
   draw();
 }
 
-function update() {
+function update(currentTime) {
   if (isGameOver) {
     alert("game over - better luck next time");
     restartGame();
     return;
   }
 
-  currentDirection = resolveDirection(
-    grid,
-    pacMan,
-    currentDirection,
-    nextDirection,
-  );
+  if ((currentTime - lastPacmanMove) / 1000 >= 1 / pacmanSpeed) {
+    updatePacman();
+    lastPacmanMove = currentTime;
+  }
+
+  if ((currentTime - lastGhostMove) / 1000 >= 1 / ghostSpeed) {
+    updateGhosts();
+    lastGhostMove = currentTime;
+  }
+}
+
+function updatePacman() {
+  currentDirection = resolveDirection(grid, pacMan, currentDirection, nextDirection);
+
   const newPacmanPos = movePacman(
     pacMan,
     grid,
@@ -79,24 +99,24 @@ function update() {
     return;
   }
 
+  const ateCoin = eatCoinAtPosition(newPacmanPos.row, newPacmanPos.col, grid);
+
   grid[pacMan.row][pacMan.col] = 0;
   pacMan.row = newPacmanPos.row;
   pacMan.col = newPacmanPos.col;
   grid[pacMan.row][pacMan.col] = 3;
 
-  // Check if Pac-Man ate a coin and update score
-  if (eatCoinAtPosition(pacMan.row, pacMan.col, grid)) {
-    score += 10;  // Add 10 points per coin
-    coinsEaten++;
-    updateScoreDisplay();
-    
-    // Check if all coins are eaten (level win condition)
-    const coinsRemaining = countCoinsRemaining(grid);
-    if (coinsRemaining === 0) {
-      levelUp();
-    }
-  }
+  if (!ateCoin) return;
 
+  collectCoin(scoreState);
+  updateStatsDisplay(scoreState);
+
+  if (shouldLevelUp(countCoinsRemaining(grid))) {
+    levelUp();
+  }
+}
+
+function updateGhosts() {
   for (const ghost of ghosts) {
     const result = moveGhost(ghost, grid, pacMan);
     if (!result) continue;
@@ -115,79 +135,36 @@ function update() {
 }
 
 function draw() {
-  drawBoard();
+  drawBoard(grid);
 
   const pacmanElement = document.querySelector(".mans");
 
   if (pacmanElement) {
     if (currentDirection.col === 1) {
-      pacmanElement.style.transform = "rotate(0deg)"; // Facing Right (Default)
+      pacmanElement.style.transform = "rotate(0deg)";
     } else if (currentDirection.col === -1) {
-      pacmanElement.style.transform = "rotate(180deg)"; // Facing Left
+      pacmanElement.style.transform = "rotate(180deg)";
     } else if (currentDirection.row === 1) {
-      pacmanElement.style.transform = "rotate(90deg)"; // Facing Down
+      pacmanElement.style.transform = "rotate(90deg)";
     } else if (currentDirection.row === -1) {
-      pacmanElement.style.transform = "rotate(270deg)"; // Facing Up
+      pacmanElement.style.transform = "rotate(270deg)";
     }
   }
 }
 
-// Update the score and level display on the page
-function updateScoreDisplay() {
-  const scoreDisplay = document.getElementById("score-display");
-  const levelDisplay = document.getElementById("level-display");
-  
-  if (scoreDisplay) {
-    scoreDisplay.textContent = `Score: ${score}`;
-  }
-  if (levelDisplay) {
-    levelDisplay.textContent = `Level: ${level}`;
-  }
-}
-
-// Handle level up: increase speed, load new grid with coins
 function levelUp() {
-  level++;
-  coinsEaten = 0;
-  gameSpeed = 6 + (level - 1);  // Increase speed each level
-  
-  // Load new grid with coins
-  const newGridWithCoins = getGrid(level, grids, 1);
-  for (let row = 0; row < grid.length; row++) {
-    for (let col = 0; col < grid[row].length; col++) {
-      grid[row][col] = newGridWithCoins[row][col];
-    }
-  }
-  
-  // Reset Pac-Man position
-  grid[pacMan.row][pacMan.col] = 0;
-  pacMan.row = 1;
-  pacMan.col = 1;
-  grid[pacMan.row][pacMan.col] = 3;
-  
-  updateScoreDisplay();
-  console.log(`Level Up! Now on Level ${level} with speed ${gameSpeed}`);
+  advanceLevel(scoreState);
+  syncSpeeds();
+  grid = getGrid(scoreState.level, grids, 1);
+  resetPositions();
+  updateStatsDisplay(scoreState);
 }
 
-// Handle ghost collisions
-function handleGhostCollision(pacman, ghosts) {
-  if (pacmanGhostCollision(pacman, ghosts)) {
-    pacmanHealth.takeDamage(1);
-    healthUI.animateDamage();
-    healthUI.update();
-
-    if (!pacmanHealth.isAlive()) {
-      endGame();
-    }
-  }
-}
-
-// Gabriel will call this function when a ghost touches Pac-Man
 function handleDeath() {
   pacmanHealth.takeDamage(1);
   healthUI.animateDamage();
   healthUI.update();
-  alert("You died!"); //temp popup to know when dead
+  alert("You died!");
 
   if (pacmanHealth.isAlive()) {
     resetPositions();
@@ -196,29 +173,22 @@ function handleDeath() {
 
   isGameOver = true;
   resetPositions();
-  // Cameron can plug in his UI code here later, e.g., showGameOverScreen()
 }
 
-// Resets entities to their starting spots without resetting the score/coins
 function resetPositions() {
-  // 1. Clear Pac-Man's current spot on the grid
   grid[pacMan.row][pacMan.col] = 0;
 
-  // Delete ghosts from current position on the grid
   ghosts.forEach((ghost) => {
     grid[ghost.row][ghost.col] = 0;
   });
 
-  // 2. Put Pac-Man back at the start
   pacMan.row = 1;
   pacMan.col = 1;
   grid[pacMan.row][pacMan.col] = 3;
 
-  // 3. Reset the direction so he doesn't immediately run into a wall
   currentDirection = { row: 0, col: 0 };
   nextDirection = { row: 0, col: 0 };
 
-  // 4. Reset the ghosts to the center box
   resetGhostToCenter();
 }
 
@@ -226,6 +196,7 @@ function resetGhostToCenter() {
   for (let i = 0; i < ghosts.length; i++) {
     ghosts[i].row = ghostStartPositions[i].row;
     ghosts[i].col = ghostStartPositions[i].col;
+    ghosts[i].lastDirection = null;
     grid[ghosts[i].row][ghosts[i].col] = 2;
   }
 }
@@ -235,12 +206,19 @@ function restartGame() {
   healthUI.update();
   isGameOver = false;
 
-  // Reset the map back to its original state (Victor's area)
-  // For now, we will just reset positions
-  resetPositions();
+  resetScoreState(scoreState);
+  syncSpeeds();
+  grid = getGrid(scoreState.level, grids, 1);
 
-  // Kick the loop back off!
+  resetPositions();
+  updateStatsDisplay(scoreState);
+
   window.requestAnimationFrame(gameLoop);
 }
 
-window.requestAnimationFrame(gameLoop); //starts game loop
+function syncSpeeds() {
+  pacmanSpeed = getSpeedForLevel(BASE_PACMAN_SPEED, scoreState.level, STARTING_LEVEL);
+  ghostSpeed = getSpeedForLevel(BASE_GHOST_SPEED, scoreState.level, STARTING_LEVEL);
+}
+
+window.requestAnimationFrame(gameLoop);

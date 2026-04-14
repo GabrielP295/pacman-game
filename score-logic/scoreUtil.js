@@ -1,19 +1,18 @@
-// Helper utility functions for score system
+// Helper utility functions for score and level flow.
 
-// Formats the score for display (e.g., 1000 -> "1,000")
-function formatScore(score) {
-    return score.toLocaleString();
+export function formatScore(score) {
+  return score.toLocaleString();
 }
 
-// Calculates bonus points based on time (optional future feature)
-// This can be used later when you want time-based bonuses
-function calculateTimeBonus(secondsRemaining) {
-    if (secondsRemaining <= 0) return 0;
-    return Math.floor(secondsRemaining * 5); // 5 points per second
+export function calculateTimeBonus(secondsRemaining) {
+  if (secondsRemaining <= 0) return 0;
+  return Math.floor(secondsRemaining * 5);
 }
 
-// Determines if the player should level up
-// Called when coins are eaten to check win condition
-function shouldLevelUp(coinsRemaining) {
-    return coinsRemaining === 0;
+export function shouldLevelUp(coinsRemaining) {
+  return coinsRemaining === 0;
+}
+
+export function getSpeedForLevel(baseSpeed, level, startingLevel = 1) {
+  return baseSpeed + (level - startingLevel);
 }

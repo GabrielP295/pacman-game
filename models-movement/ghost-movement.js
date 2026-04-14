@@ -1,3 +1,5 @@
+import { canTravelTo, getTeleportDestination } from "./movement.js";
+
 const directions = [
   { row: -1, col: 0 }, //up
   { row: 1, col: 0 }, //down
@@ -52,7 +54,7 @@ function reverseDirection(direction) {
   };
 }
 
-function moveGhost(ghost, grid, pacman) {
+export function moveGhost(ghost, grid, pacman) {
   const direction = calculateBestDirection(ghost, grid, pacman);
 
   if (!direction) return null;
@@ -60,9 +62,12 @@ function moveGhost(ghost, grid, pacman) {
   const nextRow = ghost.row + direction.row;
   const nextCol = ghost.col + direction.col;
 
+  const newPos = getTeleportDestination(grid, nextRow, nextCol, direction)
+    ?? { row: nextRow, col: nextCol };
+
   return {
-    newPos: { row: nextRow, col: nextCol },
+    newPos,
     direction,
-    hitPacman: grid[nextRow]?.[nextCol] === 3,
+    hitPacman: grid[newPos.row]?.[newPos.col] === 3,
   };
 }

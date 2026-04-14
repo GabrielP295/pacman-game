@@ -3,7 +3,7 @@
  * Manages pacman's lives/health with max and min constraints
  */
 
-class HealthCounter {
+export class HealthCounter {
   /**
    * Initialize the health counter with a starting amount
    * @param {number} initialHealth - Starting health value (default: 3)
