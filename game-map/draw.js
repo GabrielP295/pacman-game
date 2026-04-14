@@ -5,15 +5,17 @@ export function draw(gV) {
 
   const pacmanElement = document.querySelector(".mans");
 
-  if (pacmanElement) {
-    if (gV.currentDirection.col === 1) {
-      pacmanElement.style.transform = "rotate(0deg)"; // Facing Right (Default)
-    } else if (gV.currentDirection.col === -1) {
-      pacmanElement.style.transform = "rotate(180deg)"; // Facing Left
-    } else if (gV.currentDirection.row === 1) {
-      pacmanElement.style.transform = "rotate(90deg)"; // Facing Down
-    } else if (gV.currentDirection.row === -1) {
-      pacmanElement.style.transform = "rotate(270deg)"; // Facing Up
-    }
-  }
+  rotatePacman(pacmanElement, gV.currentDirection);
+}
+
+function rotatePacman(element, direction) {
+  const map = {
+    "0,1": "rotate(0deg)",
+    "0,-1": "rotate(180deg)",
+    "1,0": "rotate(90deg)",
+    "-1,0": "rotate(270deg)",
+  };
+
+  const key = `${direction.row},${direction.col}`;
+  element.style.transform = map[key] || "rotate(0deg)";
 }
