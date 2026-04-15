@@ -4,6 +4,8 @@ import { resetPositions } from "../game-map/reset-positions.js";
 
 export function updateGhosts(gV) {
   for (const ghost of gV.ghosts) {
+    if (!ghost.active) continue;
+
     const result = moveGhost(ghost, gV.grid, gV.pacMan);
     if (!result) continue;
 

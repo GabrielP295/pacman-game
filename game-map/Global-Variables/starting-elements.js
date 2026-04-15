@@ -9,7 +9,7 @@ export const ghostStartPositions = [
 
 export const ghosts = [];
 for (const ghost of ghostStartPositions) {
-  ghosts.push({ ...ghost, lastDirection: null, underlyingTile: 0 });
+  ghosts.push({ ...ghost, lastDirection: null, underlyingTile: 0, active: false });
 }
 
 
