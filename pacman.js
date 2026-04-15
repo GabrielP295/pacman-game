@@ -20,6 +20,7 @@ import { shouldLevelUp, getSpeedForLevel } from "./score-logic/scoreUtil.js";
 import { updateStatsDisplay } from "./score-logic/statsDisplay.js";
 import { createDefaultCoinAudioController } from "./audio-manager/sound-effects/coin/coin-audio-setup.js";
 import { showModal } from "./game-modal.js";
+import { saveScore, isHighScore } from "./score-logic/leaderboard.js";
 
 const BASE_PACMAN_SPEED = 8;
 const BASE_GHOST_SPEED = 6;
@@ -59,13 +60,19 @@ function update(currentTime) {
   if (paused) return;
 
   if (gV.isGameOver) {
-    paused = true;
-    showModal("Game Over!", "Play Again", { showLeaderboard: true }).then(() => {
-      restartGame();
-      paused = false;
-    });
-    return;
+  paused = true;
+
+  if (isHighScore(scoreState.score)) {
+    const name = prompt("🏆 High Score! Enter your name (max 12 chars):") || "AAA";
+    saveScore(name, scoreState.score, scoreState.level);
   }
+
+  showModal("Game Over!", "Play Again", { showLeaderboard: true }).then(() => {
+    restartGame();
+    paused = false;
+  });
+  return;
+}
 
   updateGhostRelease(gV, currentTime);
 

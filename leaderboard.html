@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
+    <link rel="stylesheet" href="map.css" />
+    <link rel="stylesheet" href="leaderboard.css" />
+    <title>Pac-Man Leaderboard</title>
+  </head>
+  <body>
+    <h1>Pac-Man</h1>
+
+    <div id="leaderboard-container">
+      <h2 id="leaderboard-title">🏆 High Scores</h2>
+
+      <table id="leaderboard-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Level</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <!-- Populated by leaderboard-page.js -->
+        </tbody>
+      </table>
+
+      <p id="leaderboard-empty" class="hidden">No scores yet. Play a game!</p>
+
+      <div id="leaderboard-actions">
+        <button id="back-btn" onclick="window.location.href='index.html'">▶ Play Again</button>
+        <button id="clear-btn">✕ Clear Scores</button>
+      </div>
+    </div>
+
+    <script type="module" src="leaderboard-page.js"></script>
+  </body>
+</html>
