@@ -3,6 +3,7 @@ import { updatePacmanPosition } from "./models-movement/update-pacman-position.j
 import { handleDeath } from "./models-health/handle-death.js";
 import { resetPositions } from "./game-map/reset-positions.js";
 import { updateGhosts } from "./models-movement/update-ghost-positions.js";
+import { updateGhostRelease } from "./models-movement/ghost-release.js";
 import { draw } from "./game-map/draw.js";
 import { gV } from "./game-map/Global-Variables/global-variables.js";
 import { getGrid } from "./game-map/Grid-System/gridLoader.js";
@@ -58,6 +59,8 @@ function update(currentTime) {
     restartGame();
     return;
   }
+
+  updateGhostRelease(gV, currentTime);
 
   if ((currentTime - gV.lastPacmanMove) / 1000 >= 1 / gV.pacmanSpeed) {
     const result = updatePacmanPosition(

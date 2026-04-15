@@ -1,5 +1,6 @@
 export function canTravelTo(grid, row, col) {
-  return grid[row]?.[col] !== 1;
+  const tile = grid[row]?.[col];
+  return tile !== 1 && tile !== 9;
 }
 
 export function getTeleportDestination(grid, row, col, direction) {

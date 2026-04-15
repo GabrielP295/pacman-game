@@ -27,7 +27,9 @@ export function resetGhostToCenter(gV) {
     gV.ghosts[i].row = gV.ghostStartPositions[i].row;
     gV.ghosts[i].col = gV.ghostStartPositions[i].col;
     gV.ghosts[i].lastDirection = null;
+    gV.ghosts[i].active = false;
     gV.ghosts[i].underlyingTile = gV.grid[gV.ghosts[i].row][gV.ghosts[i].col];
     gV.grid[gV.ghosts[i].row][gV.ghosts[i].col] = 2;
   }
+  gV.lastGhostRelease = null;
 }

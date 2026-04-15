@@ -82,3 +82,12 @@ h1 {
 .tunnel {
   background-color: black;
 }
+
+.corral {
+  background-color: black;
+}
+
+.corral-gate {
+  background-color: #ff69b4;
+  border: 1px solid #111;
+}

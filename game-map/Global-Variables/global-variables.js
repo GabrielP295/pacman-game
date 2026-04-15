@@ -25,6 +25,7 @@ export const gV = {
   pacMan: pacMan,
   ghosts: ghosts,
   ghostStartPositions: ghostStartPositions,
+  lastGhostRelease: null,
 }
 
 gV.healthUI = new HealthCounterUI(gV.pacmanHealth, "health-display", {
