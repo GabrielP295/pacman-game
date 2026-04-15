@@ -12,10 +12,22 @@
   <body>
     <h1>Pac-Man Grid</h1>
 
-    <div id="stats-display">
-      <span id="score-display">Score: 0</span>
-      <span id="level-display">Level: 1</span>
+  <div id="hud">
+    <div id="lives-display">
+      <span class="hud-label">Lives</span>
+      <span id="lives-count">3</span>
     </div>
+
+    <div id="score-display">
+      <span class="hud-label">Score</span>
+      <span id="score-count">0</span>
+    </div>
+
+    <div id="timer-display">
+      <span class="hud-label">Ghost Release</span>
+      <span id="timer-count">0</span>
+    </div>
+  </div>
 
     <div id="game-board"></div>
     <audio id="doomsoundtrack" src="assets/DOOM.mp3" loop preload="auto"></audio>
