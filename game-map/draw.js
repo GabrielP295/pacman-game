@@ -5,6 +5,8 @@ export function draw(gV) {
 
   const pacmanElement = document.querySelector(".mans");
 
+  if (!pacmanElement) return;
+
   rotatePacman(pacmanElement, gV.currentDirection);
 }
 

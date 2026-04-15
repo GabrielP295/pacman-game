@@ -5,8 +5,9 @@ const gridContentMap = {
   1: "wall",
   2: "ghosts",
   3: "mans",
+  4: "coin",
   8: "tunnel",
-}
+};
 
 export function drawBoard(grid) {
   board.innerHTML = "";

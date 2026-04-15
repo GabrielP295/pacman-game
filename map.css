@@ -17,6 +17,22 @@ h1 {
   margin-bottom: 20px;
 }
 
+#stats-display {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#score-display {
+  color: #ffeb3b;
+}
+
+#level-display {
+  color: #4ade80;
+}
+
 #game-board {
   width: 400px;
   height: 400px;
@@ -48,6 +64,14 @@ h1 {
 
 .blank {
   background-color: black;
+}
+
+.coin {
+  background-color: black;
+  background-image: url("assets/coin.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
 }
 
 .wall {
