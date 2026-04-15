@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
     <link rel="stylesheet" href="map.css" />
     <link rel="stylesheet" href="models-health/health-counter.css" />
+    <link rel="stylesheet" href="models-start/start-overlay.css" />
   </head>
   <body>
     <h1>Pac-Man Grid</h1>
@@ -18,6 +19,12 @@
     </div>
 
     <div id="game-board"></div>
+    <div id="start-overlay" class="start-overlay">
+      <div class="start-panel">
+        <h2 class="start-title">PAC-MAN</h2>
+        <button id="start-button">Start Game</button>
+      </div>
+    </div>
     <audio id="doomsoundtrack" src="assets/DOOM.mp3" loop preload="auto"></audio>
 
     <div id="game-modal" class="game-modal hidden">
@@ -31,5 +38,6 @@
     </div>
 
     <script type="module" src="pacman.js"></script>
+    <script type="module" src="models-start/start-overlay.js"></script>
   </body>
 </html>

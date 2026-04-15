@@ -160,4 +160,6 @@ function syncSpeeds() {
   );
 }
 
-window.requestAnimationFrame(gameLoop);
+export function startGame() {
+  window.requestAnimationFrame(gameLoop);
+}
