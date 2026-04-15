@@ -1,11 +1,10 @@
+import { showModal } from "../game-modal.js";
 
-
-
-export function handleDeath(pacmanHealth, healthUI) {
+export async function handleDeath(pacmanHealth, healthUI) {
   pacmanHealth.takeDamage(1);
   healthUI.animateDamage();
   healthUI.update();
-  alert("You died!"); //temp popup to know when dead
+  await showModal("You died!", "Continue");
 
   return !pacmanHealth.isAlive();
 }

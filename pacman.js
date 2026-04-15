@@ -19,12 +19,14 @@ import {
 import { shouldLevelUp, getSpeedForLevel } from "./score-logic/scoreUtil.js";
 import { updateStatsDisplay } from "./score-logic/statsDisplay.js";
 import { createDefaultCoinAudioController } from "./audio-manager/sound-effects/coin/coin-audio-setup.js";
+import { showModal } from "./game-modal.js";
 
 const BASE_PACMAN_SPEED = 8;
 const BASE_GHOST_SPEED = 6;
 
 const scoreState = createScoreState(gV.level);
 const coinAudio = createDefaultCoinAudioController();
+let paused = false;
 
 syncSpeeds();
 updateStatsDisplay(scoreState);
@@ -54,9 +56,14 @@ function gameLoop(currentTime) {
 }
 
 function update(currentTime) {
+  if (paused) return;
+
   if (gV.isGameOver) {
-    alert("game over - better luck next time");
-    restartGame();
+    paused = true;
+    showModal("Game Over!", "Play Again", { showLeaderboard: true }).then(() => {
+      restartGame();
+      paused = false;
+    });
     return;
   }
 
@@ -71,14 +78,16 @@ function update(currentTime) {
     );
 
     if (result.hitGhost) {
-      const died = handleDeath(gV.pacmanHealth, gV.healthUI);
-
-      if (died) {
-        gV.isGameOver = true;
-        return;
-      }
-
-      resetPositions(gV);
+      paused = true;
+      handleDeath(gV.pacmanHealth, gV.healthUI).then((died) => {
+        if (died) {
+          gV.isGameOver = true;
+        } else {
+          resetPositions(gV);
+        }
+        paused = false;
+      });
+      return;
     } else if (result.ateCoin) {
       collectCoin(scoreState);
       coinAudio.registerCoinCollected();
@@ -93,7 +102,19 @@ function update(currentTime) {
   }
 
   if ((currentTime - gV.lastGhostMove) / 1000 >= 1 / gV.ghostSpeed) {
-    updateGhosts(gV);
+    const ghostResult = updateGhosts(gV);
+    if (ghostResult.hitPacman) {
+      paused = true;
+      handleDeath(gV.pacmanHealth, gV.healthUI).then((died) => {
+        if (died) {
+          gV.isGameOver = true;
+        } else {
+          resetPositions(gV);
+        }
+        paused = false;
+      });
+      return;
+    }
     gV.lastGhostMove = currentTime;
   }
 }
