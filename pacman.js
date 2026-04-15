@@ -17,11 +17,13 @@ import {
 } from "./score-logic/scoreCalculator.js";
 import { shouldLevelUp, getSpeedForLevel } from "./score-logic/scoreUtil.js";
 import { updateStatsDisplay } from "./score-logic/statsDisplay.js";
+import { createDefaultCoinAudioController } from "./audio-manager/sound-effects/coin/coin-audio-setup.js";
 
 const BASE_PACMAN_SPEED = 8;
 const BASE_GHOST_SPEED = 6;
 
 const scoreState = createScoreState(gV.level);
+const coinAudio = createDefaultCoinAudioController();
 
 syncSpeeds();
 updateStatsDisplay(scoreState);
@@ -76,6 +78,7 @@ function update(currentTime) {
       resetPositions(gV);
     } else if (result.ateCoin) {
       collectCoin(scoreState);
+      coinAudio.registerCoinCollected();
       updateStatsDisplay(scoreState);
 
       if (shouldLevelUp(countCoinsIncludingGhosts(gV.grid, gV.ghosts))) {
@@ -107,6 +110,7 @@ function restartGame() {
   gV.isGameOver = false;
 
   resetScoreState(scoreState, STARTING_LEVEL);
+  coinAudio.reset();
   gV.level = scoreState.level;
   gV.lastPacmanMove = 0;
   gV.lastGhostMove = 0;
