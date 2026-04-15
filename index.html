@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="map.css" />
     <link rel="stylesheet" href="models-health/health-counter.css" />
+    <link rel="stylesheet" href="models-start/start-overlay.css" />
   </head>
   <body>
     <h1>Pac-Man Grid</h1>
@@ -15,6 +16,13 @@
     </div>
 
     <div id="game-board"></div>
+    <div id="start-overlay" class="start-overlay">
+      <div class="start-panel">
+        <h2 class="start-title">PAC-MAN</h2>
+        <button id="start-button">Start Game</button>
+      </div>
+    </div>
     <script type="module" src="pacman.js"></script>
+    <script type="module" src="models-start/start-overlay.js"></script>
   </body>
 </html>
