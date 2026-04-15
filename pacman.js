@@ -32,6 +32,15 @@ document.addEventListener("keydown", (e) => {
   if (dir) gV.nextDirection = dir;
 });
 
+const bgMusic = document.getElementById("doomsoundtrack");
+bgMusic.volume = 0.3; 
+
+window.addEventListener("keydown", () => {
+  bgMusic.play().catch(error => {
+    console.log("Audio play blocked by browser:", error);
+  });
+}, { once: true });
+
 function gameLoop(currentTime) {
   if (!gV.isGameOver) {
     window.requestAnimationFrame(gameLoop);
