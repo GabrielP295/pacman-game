@@ -7,17 +7,17 @@
   align-items: center;
   gap: 12px;
   padding: 16px;
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
-  border-radius: 8px;
-  border: 2px solid #FFD700;
+  background: #000;
+  border: 3px solid #ffeb3b;
+  box-shadow: 0 0 12px #ffeb3b44;
 }
 
 .health-label {
-  font-size: 14px;
-  font-weight: bold;
-  color: #FFD700;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 10px;
+  color: #ffeb3b;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 /* ===== HEARTS DISPLAY ===== */
@@ -34,36 +34,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: heartPulse 0.3s ease-in-out;
-}
-
-.health-heart:hover {
-  transform: scale(1.1);
-  animation: heartBeat 0.6s ease-in-out;
-}
-
-@keyframes heartPulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.15);
-  }
-}
-
-@keyframes heartBeat {
-  0%, 100% {
-    transform: scale(1);
-  }
-  25% {
-    transform: scale(1.2);
-  }
-  50% {
-    transform: scale(1);
-  }
-  75% {
-    transform: scale(1.2);
-  }
+  image-rendering: pixelated;
 }
 
 /* ===== HEALTH BAR DISPLAY ===== */
@@ -75,80 +46,66 @@
 
 .health-bar-background {
   width: 100%;
-  height: 24px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 2px solid #FFD700;
-  border-radius: 12px;
+  height: 20px;
+  background-color: #111;
+  border: 3px solid #ffeb3b;
   overflow: hidden;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .health-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #FFD700, #FFA500);
-  transition: width 0.3s ease-in-out;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
-  border-radius: 10px;
+  background: #ffeb3b;
+  transition: width 0.15s steps(5);
 }
 
 .health-bar-fill.low {
-  background: linear-gradient(90deg, #FF4444, #CC0000);
-  animation: lowHealthPulse 0.5s infinite;
+  background: #ff4444;
+  animation: lowHealthBlink 0.5s step-end infinite;
 }
 
-@keyframes lowHealthPulse {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(255, 68, 68, 0.6);
-  }
-  50% {
-    box-shadow: 0 0 12px rgba(255, 68, 68, 0.9);
-  }
+@keyframes lowHealthBlink {
+  50% { opacity: 0.4; }
 }
 
 /* ===== TEXT DISPLAY ===== */
 
 .health-text-display {
-  font-size: 18px;
-  font-weight: bold;
-  color: #FFD700;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 12px;
+  color: #fff;
   min-width: 80px;
   text-align: center;
-  font-family: 'Courier New', monospace;
   letter-spacing: 2px;
-  transition: color 0.3s ease-in-out;
 }
 
 /* ===== ANIMATION STATES ===== */
 
 .health-damage-animation {
-  animation: damageShake 0.3s ease-in-out;
+  animation: damageShake 0.3s steps(4);
 }
 
 @keyframes damageShake {
   0%, 100% {
     transform: translateX(0);
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
   }
   25% {
     transform: translateX(-4px);
-    background: linear-gradient(135deg, rgba(255, 68, 68, 0.2), rgba(255, 68, 68, 0.1));
+    border-color: #ff4444;
   }
   75% {
     transform: translateX(4px);
-    background: linear-gradient(135deg, rgba(255, 68, 68, 0.2), rgba(255, 68, 68, 0.1));
+    border-color: #ff4444;
   }
 }
 
 .health-heal-animation {
-  animation: healFlash 0.3s ease-in-out;
+  animation: healFlash 0.3s steps(2);
 }
 
 @keyframes healFlash {
-  0%, 100% {
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
-  }
   50% {
-    background: linear-gradient(135deg, rgba(68, 255, 68, 0.2), rgba(68, 255, 68, 0.1));
+    border-color: #4ade80;
+    box-shadow: 0 0 12px #4ade8044;
   }
 }
 
@@ -169,7 +126,7 @@
   }
 
   .health-text-display {
-    font-size: 16px;
+    font-size: 10px;
   }
 }
 
@@ -192,11 +149,11 @@
   }
 
   .health-bar-background {
-    height: 20px;
+    height: 16px;
   }
 
   .health-text-display {
-    font-size: 14px;
+    font-size: 9px;
     min-width: 70px;
   }
 }
@@ -204,18 +161,9 @@
 /* ===== GAME OVER STATE ===== */
 
 .health-counter-container.game-over {
-  background: linear-gradient(135deg, rgba(255, 68, 68, 0.2), rgba(100, 0, 0, 0.2));
-  border-color: #FF4444;
-  animation: gameOverPulse 0.5s ease-in-out;
-}
-
-@keyframes gameOverPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(255, 68, 68, 0);
-  }
+  background: #000;
+  border-color: #ff4444;
+  box-shadow: 0 0 12px #ff444444;
 }
 
 /* ===== COMBINED STYLE (Hearts + Bar) ===== */

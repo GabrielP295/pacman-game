@@ -1,6 +1,4 @@
 import { moveGhost } from "./ghost-movement.js";
-import { handleDeath } from "../models-health/handle-death.js";
-import { resetPositions } from "../game-map/reset-positions.js";
 
 export function updateGhosts(gV) {
   for (const ghost of gV.ghosts) {
@@ -8,15 +6,7 @@ export function updateGhosts(gV) {
     if (!result) continue;
 
     if (result.hitPacman) {
-      const died = handleDeath(gV.pacmanHealth, gV.healthUI);
-
-      if (died) {
-        gV.isGameOver = true;
-        return;
-      }
-
-      resetPositions(gV);
-      return;
+      return { hitPacman: true };
     }
 
     const destinationTile = gV.grid[result.newPos.row][result.newPos.col];
@@ -27,4 +17,6 @@ export function updateGhosts(gV) {
     gV.grid[ghost.row][ghost.col] = 2;
     ghost.lastDirection = result.direction;
   }
+
+  return { hitPacman: false };
 }

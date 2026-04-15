@@ -3,12 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
     <link rel="stylesheet" href="map.css" />
     <link rel="stylesheet" href="models-health/health-counter.css" />
   </head>
   <body>
     <h1>Pac-Man Grid</h1>
-    
+
     <div id="stats-display">
       <span id="score-display">Score: 0</span>
       <span id="level-display">Level: 1</span>
@@ -16,6 +19,17 @@
 
     <div id="game-board"></div>
     <audio id="doomsoundtrack" src="assets/DOOM.mp3" loop preload="auto"></audio>
+
+    <div id="game-modal" class="game-modal hidden">
+      <div class="game-modal-content">
+        <p id="game-modal-message"></p>
+        <div class="game-modal-buttons">
+          <button id="game-modal-btn"></button>
+          <button id="game-modal-leaderboard-btn" class="hidden">Leaderboard</button>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="pacman.js"></script>
   </body>
 </html>
