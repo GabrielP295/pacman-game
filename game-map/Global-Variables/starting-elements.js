@@ -17,13 +17,20 @@ const ghostNumbers = {
   3: "orange",
 };
 let ghostNumber = 0;
+const ghostDirectionSolvers = [
+  calculateRedBestDirection,
+  calculatePinkBestDirection,
+  calculateRedBestDirection,
+  calculateRedBestDirection,
+];
 
 export const ghosts = [];
 for (const ghost of ghostStartPositions) {
+  const solver = ghostDirectionSolvers[ghostNumber] ?? calculateRedBestDirection;
   ghosts.push({
     ...ghost,
     ghostColor: ghostNumbers[ghostNumber++],
-    directionSolver: calculatePinkBestDirection,
+    directionSolver: solver,
     lastDirection: { row: 1, col: 0 },
     underlyingTile: 0,
     active: false,
