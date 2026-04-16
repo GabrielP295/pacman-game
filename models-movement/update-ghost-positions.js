@@ -4,7 +4,12 @@ export function updateGhosts(gV) {
   for (const ghost of gV.ghosts) {
     if (!ghost.active) continue;
 
-    const direction = ghost.directionSolver(ghost, gV.grid, gV.pacMan);
+    const direction = ghost.directionSolver(
+      ghost,
+      gV.grid,
+      gV.pacMan,
+      gV.currentDirection,
+    );
     const result = moveGhost(direction, ghost, gV.grid);
     if (!result) continue;
 

@@ -1,4 +1,5 @@
 import { calculateRedBestDirection } from "../../models-movement/ghost-movement/red-ghost-movement.js";
+import { calculatePinkBestDirection } from "../../models-movement/ghost-movement/pink-ghost-movement.js";
 
 export const board = document.getElementById("game-board");
 export const pacMan = { row: 1, col: 1 };
@@ -22,7 +23,7 @@ for (const ghost of ghostStartPositions) {
   ghosts.push({
     ...ghost,
     ghostColor: ghostNumbers[ghostNumber++],
-    directionSolver: calculateRedBestDirection,
+    directionSolver: calculatePinkBestDirection,
     lastDirection: { row: 1, col: 0 },
     underlyingTile: 0,
     active: false,

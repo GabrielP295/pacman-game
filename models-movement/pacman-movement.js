@@ -14,7 +14,12 @@ export function keyToDirection(key) {
   return directionMap[key] || null;
 }
 
-export function resolveDirection(grid, pacMan, currentDirection, nextDirection) {
+export function resolveDirection(
+  grid,
+  pacMan,
+  currentDirection,
+  nextDirection,
+) {
   const nextRow = pacMan.row + nextDirection.row;
   const nextCol = pacMan.col + nextDirection.col;
 
@@ -32,8 +37,12 @@ export function getNextPosition(grid, pacMan, direction) {
     return { row: pacMan.row, col: pacMan.col };
   }
 
-  return getTeleportDestination(grid, moveRow, moveCol, direction)
-    ?? { row: moveRow, col: moveCol };
+  return (
+    getTeleportDestination(grid, moveRow, moveCol, direction) ?? {
+      row: moveRow,
+      col: moveCol,
+    }
+  );
 }
 
 export function applyMove(grid, oldPos, newPos) {

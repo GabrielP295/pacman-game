@@ -1,12 +1,9 @@
 import { canTravelTo } from "../movement.js";
-import { directions } from "./directions.js";
+import { directions } from "./ghost-utils.js";
+import { calculateMinDistance } from "./ghost-utils.js";
+import { isOppositeDirection } from "./ghost-utils.js";
 
-function calculateMinDistance(row, col, pacman) {
-  const rowDistance = Math.abs(row - pacman.row);
-  const colDistance = Math.abs(col - pacman.col);
-  return Math.sqrt(rowDistance ** 2 + colDistance ** 2);
-}
-
+// Red ghost targets Pacman's current position
 export function calculateRedBestDirection(ghost, grid, pacman) {
   let minDistance = Infinity;
   let bestDirection;
@@ -17,13 +14,11 @@ export function calculateRedBestDirection(ghost, grid, pacman) {
     const possibleRow = ghost.row + direction.row;
     const possibleCol = ghost.col + direction.col;
 
-    if (!canTravelTo(grid, possibleRow, possibleCol)) {
+    if (
+      !canTravelTo(grid, possibleRow, possibleCol) ||
+      grid[possibleRow][possibleCol] === 2
+    )
       continue;
-    }
-
-    if (grid[possibleRow][possibleCol] === 2) {
-      continue;
-    }
 
     const newDistance = calculateMinDistance(possibleRow, possibleCol, pacman);
     if (newDistance < minDistance) {
@@ -33,19 +28,4 @@ export function calculateRedBestDirection(ghost, grid, pacman) {
   }
 
   return bestDirection;
-}
-
-function isOppositeDirection(direction, ghostDirection) {
-  if (!direction || !ghostDirection) return false;
-  const reversed = reverseDirection(direction);
-  return (
-    reversed.row === ghostDirection.row && reversed.col === ghostDirection.col
-  );
-}
-
-function reverseDirection(direction) {
-  return {
-    row: direction.row * -1,
-    col: direction.col * -1,
-  };
 }
