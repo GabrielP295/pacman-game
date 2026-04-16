@@ -82,7 +82,7 @@ export function returnSingleGhostToHouse(ghost, gV) {
   ghost.col = gV.ghostStartPositions[i].col;
   ghost.lastDirection = null;
   ghost.active = false;
-  ghost.frightened = false;
+  ghost.frightened = true;
   ghost.underlyingTile = gV.grid[ghost.row][ghost.col];
   gV.grid[ghost.row][ghost.col] = 2;
 }
