@@ -59,3 +59,8 @@ function reverseDirection(direction) {
     col: direction.col * -1,
   };
 }
+
+export function isWithinRange(ghost, target, radius) {
+  const distance = calculateMinDistance(ghost.row, ghost.col, target);
+  return distance <= radius;
+}

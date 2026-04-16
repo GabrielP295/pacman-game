@@ -1,5 +1,6 @@
 import { calculateRedBestDirection } from "../../models-movement/ghost-movement/red-ghost-movement.js";
 import { calculatePinkBestDirection } from "../../models-movement/ghost-movement/pink-ghost-movement.js";
+import { calculateCyanBestDirection } from "../../models-movement/ghost-movement/cyan-ghost-movement.js";
 
 export const board = document.getElementById("game-board");
 export const pacMan = { row: 1, col: 1 };
@@ -18,15 +19,16 @@ const ghostNumbers = {
 };
 let ghostNumber = 0;
 const ghostDirectionSolvers = [
-  calculateRedBestDirection,
-  calculatePinkBestDirection,
-  calculateRedBestDirection,
-  calculateRedBestDirection,
+  calculateCyanBestDirection,
+  calculateCyanBestDirection,
+  calculateCyanBestDirection,
+  calculateCyanBestDirection,
 ];
 
 export const ghosts = [];
 for (const ghost of ghostStartPositions) {
-  const solver = ghostDirectionSolvers[ghostNumber] ?? calculateRedBestDirection;
+  const solver =
+    ghostDirectionSolvers[ghostNumber] ?? calculateCyanBestDirection;
   ghosts.push({
     ...ghost,
     ghostColor: ghostNumbers[ghostNumber++],

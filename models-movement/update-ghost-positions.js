@@ -1,13 +1,11 @@
 import { getTeleportDestination } from "./movement.js";
 import { canTravelTo } from "./movement.js";
-import { calculateRedBestDirection } from "./ghost-movement/red-ghost-movement.js";
 
 export function updateGhosts(gV) {
   for (const ghost of gV.ghosts) {
     if (!ghost.active) continue;
 
-    const solver = ghost.directionSolver ?? calculateRedBestDirection;
-    const direction = solver(
+    const direction = ghost.directionSolver(
       ghost,
       gV.grid,
       gV.pacMan,
