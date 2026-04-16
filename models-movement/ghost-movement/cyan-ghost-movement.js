@@ -8,8 +8,8 @@ export function calculateCyanBestDirection(ghost, grid) {
     return chooseBestDirection(ghost, grid, currentTarget);
 
   currentTarget = {
-    row: Math.round(Math.random() * grid.length - 1),
-    col: Math.round(Math.random() * grid[0].length - 1),
+    row: Math.floor(Math.random() * grid.length),
+    col: Math.floor(Math.random() * grid[0].length),
   };
 
   return chooseBestDirection(ghost, grid, currentTarget);

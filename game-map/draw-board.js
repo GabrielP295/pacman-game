@@ -14,12 +14,10 @@ const gridContentMap = {
 export function drawBoard(grid, ghosts) {
   board.innerHTML = "";
 
-  const ghostColorMap = {
-    [`${ghosts[0].row},${ghosts[0].col}`]: "red",
-    [`${ghosts[1].row},${ghosts[1].col}`]: "pink",
-    [`${ghosts[2].row},${ghosts[2].col}`]: "cyan",
-    [`${ghosts[3].row},${ghosts[3].col}`]: "orange",
-  };
+  const ghostByPosition = {};
+  for (const ghost of ghosts) {
+    ghostByPosition[`${ghost.row},${ghost.col}`] = ghost;
+  }
 
   for (let row = 0; row < grid.length; row++) {
     for (let col = 0; col < grid[row].length; col++) {
@@ -27,12 +25,15 @@ export function drawBoard(grid, ghosts) {
       cell.classList.add("cell");
 
       let content = gridContentMap[grid[row][col]];
+      const ghost = ghostByPosition[`${row},${col}`];
+      if (ghost) {
+        content = "ghosts";
+      }
 
       if (!content) continue;
 
-      if (content === "ghosts") {
-        const ghostColor = ghostColorMap[`${row},${col}`];
-        cell.classList.add(ghostColor);
+      if (ghost) {
+        cell.classList.add(ghost.ghostColor);
       }
 
       cell.classList.add(content);

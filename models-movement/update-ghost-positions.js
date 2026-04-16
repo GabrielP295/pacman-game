@@ -2,6 +2,14 @@ import { getTeleportDestination } from "./movement.js";
 import { canTravelTo } from "./movement.js";
 
 export function updateGhosts(gV) {
+  const activeGhosts = gV.ghosts.filter((ghost) => ghost.active);
+
+  // remove active ghosts from the grid so move planning is not order-dependent.
+  for (const ghost of activeGhosts) {
+    gV.grid[ghost.row][ghost.col] = ghost.underlyingTile;
+  }
+
+  // move active ghosts based on their strategy.
   for (const ghost of gV.ghosts) {
     if (!ghost.active) continue;
 
@@ -18,13 +26,17 @@ export function updateGhosts(gV) {
       return { hitPacman: true };
     }
 
-    const destinationTile = gV.grid[result.newPos.row][result.newPos.col];
-    gV.grid[ghost.row][ghost.col] = ghost.underlyingTile;
     ghost.row = result.newPos.row;
     ghost.col = result.newPos.col;
-    ghost.underlyingTile = destinationTile;
-    gV.grid[ghost.row][ghost.col] = 2;
     ghost.lastDirection = result.direction;
+  }
+
+  // refresh underlying tiles from the ghost-free grid, then paint ghosts.
+  for (const ghost of activeGhosts) {
+    ghost.underlyingTile = gV.grid[ghost.row][ghost.col];
+  }
+  for (const ghost of activeGhosts) {
+    gV.grid[ghost.row][ghost.col] = 2;
   }
 
   return { hitPacman: false };

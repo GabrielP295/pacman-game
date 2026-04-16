@@ -14,19 +14,29 @@ export function calculateMinDistance(row, col, target) {
 }
 
 export function chooseBestDirection(ghost, grid, targetPosition) {
+  const nonReverseDirection = chooseDirection(ghost, grid, targetPosition, {
+    allowReverse: false,
+  });
+
+  if (nonReverseDirection) return nonReverseDirection;
+
+  // if no legal move exists, allow reversing for this step.
+  return chooseDirection(ghost, grid, targetPosition, { allowReverse: true });
+}
+
+function chooseDirection(ghost, grid, targetPosition, { allowReverse }) {
   let minDistance = Infinity;
   let bestDirection;
 
   for (const direction of directions) {
-    if (isOppositeDirection(direction, ghost.lastDirection)) continue;
+    if (!allowReverse && isOppositeDirection(direction, ghost.lastDirection)) {
+      continue;
+    }
 
     const possibleRow = ghost.row + direction.row;
     const possibleCol = ghost.col + direction.col;
 
-    if (
-      !canTravelTo(grid, possibleRow, possibleCol) ||
-      grid[possibleRow][possibleCol] === 2
-    ) {
+    if (!canTravelTo(grid, possibleRow, possibleCol)) {
       continue;
     }
 

@@ -1,6 +1,7 @@
 import { chooseBestDirection, isWithinRange } from "./ghost-utils.js";
 import { calculateRedBestDirection } from "./red-ghost-movement.js";
 
+// Orange ghost targets a random corner when close to pacman, otherwise chases Pacman
 export function calculateOrangeBestDirection(ghost, grid, pacman) {
   const gridCorners = getGridCorners(grid);
 
@@ -9,7 +10,8 @@ export function calculateOrangeBestDirection(ghost, grid, pacman) {
     return calculateRedBestDirection(ghost, grid, pacman);
   }
 
-  const randomCorner = gridCorners[Math.random() * gridCorners.length - 1];
+  const randomCorner =
+    gridCorners[Math.floor(Math.random() * gridCorners.length)];
 
   return chooseBestDirection(ghost, grid, randomCorner);
 }
