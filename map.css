@@ -191,7 +191,7 @@ h1 {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background-color: white;
+  background-color: #c6ef00;
   animation: power-pellet-blink 0.5s step-end infinite;
 }
 
@@ -202,5 +202,5 @@ h1 {
 }
 
 .ghosts.frightened {
-  background-color: #0000cd;
+  background-color: #64b5f6;
 }
