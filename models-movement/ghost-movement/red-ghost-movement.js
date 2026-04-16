@@ -1,4 +1,4 @@
-import { canTravelTo, getTeleportDestination } from "./movement.js";
+import { canTravelTo } from "../movement.js";
 
 const directions = [
   { row: -1, col: 0 }, //up
@@ -13,7 +13,7 @@ function calculateMinDistance(row, col, pacman) {
   return Math.sqrt(rowDistance ** 2 + colDistance ** 2);
 }
 
-function calculateBestDirection(ghost, grid, pacman) {
+export function calculateBestDirection(ghost, grid, pacman) {
   let minDistance = Infinity;
   let bestDirection;
 
@@ -44,30 +44,14 @@ function calculateBestDirection(ghost, grid, pacman) {
 function isOppositeDirection(direction, ghostDirection) {
   if (!direction || !ghostDirection) return false;
   const reversed = reverseDirection(direction);
-  return reversed.row === ghostDirection.row && reversed.col === ghostDirection.col;
+  return (
+    reversed.row === ghostDirection.row && reversed.col === ghostDirection.col
+  );
 }
 
 function reverseDirection(direction) {
   return {
     row: direction.row * -1,
     col: direction.col * -1,
-  };
-}
-
-export function moveGhost(ghost, grid, pacman) {
-  const direction = calculateBestDirection(ghost, grid, pacman);
-
-  if (!direction) return null;
-
-  const nextRow = ghost.row + direction.row;
-  const nextCol = ghost.col + direction.col;
-
-  const newPos = getTeleportDestination(grid, nextRow, nextCol, direction)
-    ?? { row: nextRow, col: nextCol };
-
-  return {
-    newPos,
-    direction,
-    hitPacman: grid[newPos.row]?.[newPos.col] === 3,
   };
 }

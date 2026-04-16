@@ -57,8 +57,23 @@ h1 {
 
 .ghosts {
   border-radius: 50% 50% 0 0;
-  background-color: red;
   border: 1px solid #111;
+}
+
+.ghosts.red {
+  background-color: red;
+}
+
+.ghosts.pink {
+  background-color: pink;
+}
+
+.ghosts.cyan {
+  background-color: cyan;
+}
+
+.ghosts.orange {
+  background-color: orange;
 }
 
 .blank {
@@ -108,7 +123,9 @@ h1 {
 .game-modal-content {
   background: #000;
   border: 4px solid #ffeb3b;
-  box-shadow: 0 0 20px #ffeb3b88, inset 0 0 20px rgba(255, 235, 59, 0.1);
+  box-shadow:
+    0 0 20px #ffeb3b88,
+    inset 0 0 20px rgba(255, 235, 59, 0.1);
   padding: 40px 52px;
   text-align: center;
   image-rendering: pixelated;
@@ -119,7 +136,9 @@ h1 {
   font-size: 20px;
   margin: 0 0 28px;
   color: #ffeb3b;
-  text-shadow: 2px 2px 0 #ff0000, 4px 4px 0 #000;
+  text-shadow:
+    2px 2px 0 #ff0000,
+    4px 4px 0 #000;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -155,5 +174,7 @@ h1 {
 }
 
 @keyframes blink {
-  50% { opacity: 0; }
+  50% {
+    opacity: 0;
+  }
 }

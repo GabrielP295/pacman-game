@@ -1,10 +1,11 @@
-import { moveGhost } from "./ghost-movement.js";
+import { getTeleportDestination } from "./movement.js";
 
 export function updateGhosts(gV) {
   for (const ghost of gV.ghosts) {
     if (!ghost.active) continue;
 
-    const result = moveGhost(ghost, gV.grid, gV.pacMan);
+    const direction = ghost.directionSolver(ghost, gV.grid, gV.pacMan);
+    const result = moveGhost(direction, ghost, gV.grid);
     if (!result) continue;
 
     if (result.hitPacman) {
@@ -21,4 +22,22 @@ export function updateGhosts(gV) {
   }
 
   return { hitPacman: false };
+}
+
+export function moveGhost(direction, ghost, grid) {
+  if (!direction) return null;
+
+  const nextRow = ghost.row + direction.row;
+  const nextCol = ghost.col + direction.col;
+
+  const newPos = getTeleportDestination(grid, nextRow, nextCol, direction) ?? {
+    row: nextRow,
+    col: nextCol,
+  };
+
+  return {
+    newPos,
+    direction,
+    hitPacman: grid[newPos.row]?.[newPos.col] === 3,
+  };
 }
