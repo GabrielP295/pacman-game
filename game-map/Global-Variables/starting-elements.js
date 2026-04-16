@@ -1,6 +1,7 @@
 import { calculateRedBestDirection } from "../../models-movement/ghost-movement/red-ghost-movement.js";
 import { calculatePinkBestDirection } from "../../models-movement/ghost-movement/pink-ghost-movement.js";
 import { calculateCyanBestDirection } from "../../models-movement/ghost-movement/cyan-ghost-movement.js";
+import { calculateOrangeBestDirection } from "../../models-movement/ghost-movement/orange-ghost-movement.js";
 
 export const board = document.getElementById("game-board");
 export const pacMan = { row: 1, col: 1 };
@@ -19,10 +20,10 @@ const ghostNumbers = {
 };
 let ghostNumber = 0;
 const ghostDirectionSolvers = [
+  calculateRedBestDirection,
+  calculatePinkBestDirection,
   calculateCyanBestDirection,
-  calculateCyanBestDirection,
-  calculateCyanBestDirection,
-  calculateCyanBestDirection,
+  calculateOrangeBestDirection,
 ];
 
 export const ghosts = [];
