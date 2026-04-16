@@ -1,11 +1,11 @@
-//import statement
+import { fillSpacesWithCoins } from "../../game-map/Grid-System/coinGrid.js";
 
 //fillSpacesWithCoins should loop through the grid and replace all 0s with 4s, which represent coins
 // Parameters: grid:array[]
 // Returns: void, but should modify the grid in place
 
 describe("fillSpacesWithCoins", ()=> {
-    it("fills all empty spaces with coins", ()=> {
+    it("fills spaces with coins", ()=> {
         //Arrange
         const grid =[
                     [1,1,1],

@@ -1,4 +1,4 @@
-//import statement
+import { hasNoCoinsRemaining } from "../../game-map/Grid-System/coinGrid.js";
 
 //hasNoCoinsRemaining should check if there are any coins left in the grid
 // Parameters: grid:array[]
