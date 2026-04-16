@@ -1,5 +1,6 @@
 export const COIN_POINTS = 10;
 export const STARTING_LEVEL = 1;
+export const GHOST_POINTS = 150;
 
 export function createScoreState(initialLevel = STARTING_LEVEL) {
   return {
@@ -12,6 +13,11 @@ export function createScoreState(initialLevel = STARTING_LEVEL) {
 export function collectCoin(scoreState, points = COIN_POINTS) {
   scoreState.score += points;
   scoreState.coinsEaten++;
+  return scoreState.score;
+}
+
+export function eatGhost(scoreState) {
+  scoreState.score += GHOST_POINTS;
   return scoreState.score;
 }
 

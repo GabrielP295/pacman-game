@@ -4,6 +4,7 @@ import { handleDeath } from "./models-health/handle-death.js";
 import { resetPositions } from "./game-map/reset-positions.js";
 import { updateGhosts } from "./models-movement/ghost-movement/update-ghost-positions.js";
 import { updateGhostRelease } from "./models-movement/ghost-movement/ghost-release.js";
+import { returnSingleGhostToHouse } from "./models-movement/ghost-movement/ghost-utils.js";
 import { draw } from "./game-map/draw.js";
 import { gV } from "./game-map/Global-Variables/global-variables.js";
 import { getGrid } from "./game-map/Grid-System/gridLoader.js";
@@ -15,6 +16,7 @@ import {
   advanceLevel,
   resetScoreState,
   STARTING_LEVEL,
+  eatGhost,
 } from "./score-logic/scoreCalculator.js";
 import { shouldLevelUp, getSpeedForLevel } from "./score-logic/scoreUtil.js";
 import { updateStatsDisplay } from "./score-logic/statsDisplay.js";
@@ -73,6 +75,11 @@ function update(currentTime) {
     return;
   }
 
+  if (gV.frightenedEndTime > 0 && currentTime >= gV.frightenedEndTime) {
+    gV.frightenedEndTime = 0;
+    gV.ghosts.forEach(ghost => ghost.frightened = false);
+  }
+
   updateGhostRelease(gV, currentTime);
 
   if ((currentTime - gV.lastPacmanMove) / 1000 >= 1 / gV.pacmanSpeed) {
@@ -81,6 +88,7 @@ function update(currentTime) {
       gV.pacMan,
       gV.currentDirection,
       gV.nextDirection,
+      gV.ghosts,
     );
 
     if (result.hitGhost) {
@@ -104,6 +112,18 @@ function update(currentTime) {
       }
     }
 
+    if (result.atePowerPellet) {
+      gV.frightenedEndTime = currentTime + gV.frightenedDurationMS;
+      gV.ghosts.forEach(ghost => ghost.frightened = true);
+    }
+
+    if (result.ateGhost) {
+      const eatenGhost = gV.ghosts.find(g => g.row === gV.pacMan.row && g.col === gV.pacMan.col);
+      if (eatenGhost) returnSingleGhostToHouse(eatenGhost, gV);
+      eatGhost(scoreState);
+      updateStatsDisplay(scoreState);
+    }
+
     gV.lastPacmanMove = currentTime;
   }
 
@@ -121,6 +141,12 @@ function update(currentTime) {
       });
       return;
     }
+
+    if (ghostResult.ateGhost) {
+      eatGhost(scoreState);
+      updateStatsDisplay(scoreState);
+    }
+
     gV.lastGhostMove = currentTime;
   }
 }
@@ -144,6 +170,7 @@ function restartGame() {
   gV.level = scoreState.level;
   gV.lastPacmanMove = 0;
   gV.lastGhostMove = 0;
+  gV.frightenedEndTime = 0;
   syncSpeeds();
   gV.grid = getGrid(scoreState.level, grids, 1);
 

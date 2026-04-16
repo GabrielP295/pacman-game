@@ -15,6 +15,7 @@ export const gV = {
   ghostSpeed: 6,
   lastPacmanMove: 0,
   lastGhostMove: 0,
+  frightenedDurationMS: 7000,
 
   currentDirection: { row: 0, col: 0 },
   nextDirection: { row: 0, col: 0 },
@@ -25,6 +26,7 @@ export const gV = {
   ghosts: ghosts,
   ghostStartPositions: ghostStartPositions,
   lastGhostRelease: null,
+  frightenedEndTime: 0,
 };
 
 gV.healthUI = new HealthCounterUI(gV.pacmanHealth, "health-display", {
