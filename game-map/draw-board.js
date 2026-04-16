@@ -32,12 +32,14 @@ export function drawBoard(grid, ghosts) {
       }
 
       if (!content) continue;
-
-      if (ghost.frightened) {
-        cell.classList.add("frightened");
-      } else {
-        cell.classList.add(ghost.ghostColor);
-      }
+      
+      if (ghost) {
+        if (ghost.frightened) {
+          cell.classList.add("frightened");
+        } else {
+          cell.classList.add(ghost.ghostColor);
+        }
+      };
 
       cell.classList.add(content);
 
