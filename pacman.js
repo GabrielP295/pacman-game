@@ -2,8 +2,8 @@ import { keyToDirection } from "./models-movement/pacman-movement.js";
 import { updatePacmanPosition } from "./models-movement/update-pacman-position.js";
 import { handleDeath } from "./models-health/handle-death.js";
 import { resetPositions } from "./game-map/reset-positions.js";
-import { updateGhosts } from "./models-movement/update-ghost-positions.js";
-import { updateGhostRelease } from "./models-movement/ghost-release.js";
+import { updateGhosts } from "./models-movement/ghost-movement/update-ghost-positions.js";
+import { updateGhostRelease } from "./models-movement/ghost-movement/ghost-release.js";
 import { draw } from "./game-map/draw.js";
 import { gV } from "./game-map/Global-Variables/global-variables.js";
 import { getGrid } from "./game-map/Grid-System/gridLoader.js";
@@ -39,13 +39,17 @@ document.addEventListener("keydown", (e) => {
 });
 
 const bgMusic = document.getElementById("doomsoundtrack");
-bgMusic.volume = 0.3; 
+bgMusic.volume = 0.3;
 
-window.addEventListener("keydown", () => {
-  bgMusic.play().catch(error => {
-    console.log("Audio play blocked by browser:", error);
-  });
-}, { once: true });
+window.addEventListener(
+  "keydown",
+  () => {
+    bgMusic.play().catch((error) => {
+      console.log("Audio play blocked by browser:", error);
+    });
+  },
+  { once: true },
+);
 
 function gameLoop(currentTime) {
   if (!gV.isGameOver) {
@@ -60,19 +64,22 @@ function update(currentTime) {
   if (paused) return;
 
   if (gV.isGameOver) {
-  paused = true;
+    paused = true;
 
-  if (isHighScore(scoreState.score)) {
-    const name = prompt("🏆 High Score! Enter your name (max 12 chars):") || "AAA";
-    saveScore(name, scoreState.score, scoreState.level);
+    if (isHighScore(scoreState.score)) {
+      const name =
+        prompt("🏆 High Score! Enter your name (max 12 chars):") || "AAA";
+      saveScore(name, scoreState.score, scoreState.level);
+    }
+
+    showModal("Game Over!", "Play Again", { showLeaderboard: true }).then(
+      () => {
+        restartGame();
+        paused = false;
+      },
+    );
+    return;
   }
-
-  showModal("Game Over!", "Play Again", { showLeaderboard: true }).then(() => {
-    restartGame();
-    paused = false;
-  });
-  return;
-}
 
   updateGhostRelease(gV, currentTime);
 

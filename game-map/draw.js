@@ -1,7 +1,7 @@
 import { drawBoard } from "./draw-board.js";
 
 export function draw(gV) {
-  drawBoard(gV.grid);
+  drawBoard(gV.grid, gV.ghosts);
 
   const pacmanElement = document.querySelector(".mans");
 

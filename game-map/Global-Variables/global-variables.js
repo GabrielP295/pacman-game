@@ -4,7 +4,6 @@ import { pacMan, ghosts, ghostStartPositions } from "./starting-elements.js";
 import { getGrid } from "../Grid-System/gridLoader.js";
 import { grids } from "../Grid-System/grids.js";
 
-
 //gV stands for global Variables
 export const gV = {
   level: 1,
@@ -26,12 +25,12 @@ export const gV = {
   ghosts: ghosts,
   ghostStartPositions: ghostStartPositions,
   lastGhostRelease: null,
-}
+};
 
 gV.healthUI = new HealthCounterUI(gV.pacmanHealth, "health-display", {
-    style: "hearts",
-    animateDamage: true,
-  });
+  style: "hearts",
+  animateDamage: true,
+});
 
 for (const ghost of gV.ghosts) {
   ghost.underlyingTile = gV.grid[ghost.row][ghost.col];

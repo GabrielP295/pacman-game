@@ -11,8 +11,13 @@ const gridContentMap = {
   9: "corral-gate",
 };
 
-export function drawBoard(grid) {
+export function drawBoard(grid, ghosts) {
   board.innerHTML = "";
+
+  const ghostByPosition = {};
+  for (const ghost of ghosts) {
+    ghostByPosition[`${ghost.row},${ghost.col}`] = ghost;
+  }
 
   for (let row = 0; row < grid.length; row++) {
     for (let col = 0; col < grid[row].length; col++) {
@@ -20,8 +25,16 @@ export function drawBoard(grid) {
       cell.classList.add("cell");
 
       let content = gridContentMap[grid[row][col]];
+      const ghost = ghostByPosition[`${row},${col}`];
+      if (ghost) {
+        content = "ghosts";
+      }
 
       if (!content) continue;
+
+      if (ghost) {
+        cell.classList.add(ghost.ghostColor);
+      }
 
       cell.classList.add(content);
 
