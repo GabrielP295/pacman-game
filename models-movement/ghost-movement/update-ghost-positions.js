@@ -1,5 +1,5 @@
-import { getTeleportDestination } from "./movement.js";
-import { canTravelTo } from "./movement.js";
+import { getTeleportDestination } from "../movement.js";
+import { canTravelTo } from "../movement.js";
 
 export function updateGhosts(gV) {
   const activeGhosts = gV.ghosts.filter((ghost) => ghost.active);
