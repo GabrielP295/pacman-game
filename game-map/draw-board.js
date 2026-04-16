@@ -11,13 +11,6 @@ const gridContentMap = {
   9: "corral-gate",
 };
 
-const ghostColorMap = {
-  "9,8": "red",
-  "9,9": "pink",
-  "9,10": "cyan",
-  "9,11": "orange",
-};
-
 export function drawBoard(grid, ghosts) {
   board.innerHTML = "";
 

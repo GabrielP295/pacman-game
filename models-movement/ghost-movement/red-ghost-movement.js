@@ -13,7 +13,7 @@ function calculateMinDistance(row, col, pacman) {
   return Math.sqrt(rowDistance ** 2 + colDistance ** 2);
 }
 
-export function calculateBestDirection(ghost, grid, pacman) {
+export function calculateRedBestDirection(ghost, grid, pacman) {
   let minDistance = Infinity;
   let bestDirection;
 
