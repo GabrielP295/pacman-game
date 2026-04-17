@@ -37,5 +37,6 @@ for (const ghost of ghostStartPositions) {
     lastDirection: { row: 1, col: 0 },
     underlyingTile: 0,
     active: false,
+    frightened: false,
   });
 }

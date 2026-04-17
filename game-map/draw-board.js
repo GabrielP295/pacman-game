@@ -6,6 +6,7 @@ const gridContentMap = {
   2: "ghosts",
   3: "mans",
   4: "coin",
+  5: "power-pellet",
   6: "corral",
   8: "tunnel",
   9: "corral-gate",
@@ -31,10 +32,14 @@ export function drawBoard(grid, ghosts) {
       }
 
       if (!content) continue;
-
+      
       if (ghost) {
-        cell.classList.add(ghost.ghostColor);
-      }
+        if (ghost.frightened) {
+          cell.classList.add("frightened");
+        } else {
+          cell.classList.add(ghost.ghostColor);
+        }
+      };
 
       cell.classList.add(content);
 

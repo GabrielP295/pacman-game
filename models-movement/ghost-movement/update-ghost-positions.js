@@ -1,9 +1,12 @@
 import { getTeleportDestination } from "../movement.js";
 import { canTravelTo } from "../movement.js";
+import { calculateFrightenedDirection } from "./frightenedGhostMovement.js"
+import { returnSingleGhostToHouse } from "./ghost-utils.js"
 
 export function updateGhosts(gV) {
   const activeGhosts = gV.ghosts.filter((ghost) => ghost.active);
-
+  let ateGhost = false;
+  
   // remove active ghosts from the grid so move planning is not order-dependent.
   for (const ghost of activeGhosts) {
     gV.grid[ghost.row][ghost.col] = ghost.underlyingTile;
@@ -13,17 +16,21 @@ export function updateGhosts(gV) {
   for (const ghost of gV.ghosts) {
     if (!ghost.active) continue;
 
-    const direction = ghost.directionSolver(
-      ghost,
-      gV.grid,
-      gV.pacMan,
-      gV.currentDirection,
-    );
+    const direction = ghost.frightened
+    ? calculateFrightenedDirection(ghost, gV.grid)
+    : ghost.directionSolver(ghost, gV.grid, gV.pacMan, gV.currentDirection,);
+    
     const result = moveGhost(direction, ghost, gV.grid);
     if (!result) continue;
 
     if (result.hitPacman) {
-      return { hitPacman: true };
+      return { hitPacman: true, ateGhost: false };
+    }
+
+    if (result.eatenByPacman) {
+      returnSingleGhostToHouse(ghost, gV);
+      ateGhost = true;
+      continue;
     }
 
     ghost.row = result.newPos.row;
@@ -36,10 +43,11 @@ export function updateGhosts(gV) {
     ghost.underlyingTile = gV.grid[ghost.row][ghost.col];
   }
   for (const ghost of activeGhosts) {
+    if (!ghost.active) continue;
     gV.grid[ghost.row][ghost.col] = 2;
   }
 
-  return { hitPacman: false };
+  return { hitPacman: false, ateGhost };
 }
 
 export function moveGhost(direction, ghost, grid) {
@@ -57,9 +65,12 @@ export function moveGhost(direction, ghost, grid) {
     col: nextCol,
   };
 
+  const newPosTile = grid[newPos.row]?.[newPos.col];
+
   return {
     newPos,
     direction,
-    hitPacman: grid[newPos.row]?.[newPos.col] === 3,
+    hitPacman: newPosTile === 3 && !ghost.frightened,
+    eatenByPacman: newPosTile === 3 && ghost.frightened,
   };
 }

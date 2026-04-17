@@ -178,3 +178,29 @@ h1 {
     opacity: 0;
   }
 }
+
+.power-pellet {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.power-pellet::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #c6ef00;
+  animation: power-pellet-blink 0.5s step-end infinite;
+}
+
+@keyframes power-pellet-blink {
+  50% { 
+    opacity: 0; 
+  }
+}
+
+.ghosts.frightened {
+  background-color: #64b5f6;
+}

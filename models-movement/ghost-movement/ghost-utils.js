@@ -74,3 +74,15 @@ export function isWithinRange(ghost, target, radius) {
   const distance = calculateMinDistance(ghost.row, ghost.col, target);
   return distance <= radius;
 }
+
+export function returnSingleGhostToHouse(ghost, gV) {
+  const i = gV.ghosts.indexOf(ghost);
+  gV.grid[ghost.row][ghost.col] = ghost.underlyingTile;
+  ghost.row = gV.ghostStartPositions[i].row;
+  ghost.col = gV.ghostStartPositions[i].col;
+  ghost.lastDirection = null;
+  ghost.active = false;
+  ghost.frightened = true;
+  ghost.underlyingTile = gV.grid[ghost.row][ghost.col];
+  gV.grid[ghost.row][ghost.col] = 2;
+}
